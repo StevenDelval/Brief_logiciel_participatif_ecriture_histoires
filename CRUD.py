@@ -1,11 +1,14 @@
 import sqlite3 
 from datetime import datetime
 
+import function
+
 #### Create ####
-def create_user(Username, Password):
+def create_user(username, password):
+    password = function.crypt(password)
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("INSERT INTO User VALUES (?,?,?);", (None,Username, Password))
+    curseur.execute("INSERT INTO User VALUES (?,?,?);", (None,username, password))
     connexion.commit()
     connexion.close()
 
@@ -55,6 +58,7 @@ def find_user_id(Username):
     return curseur.fetchone()
 
 def connexion(username,pw):
+    pw = function.crypt(pw)
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("SELECT Username FROM User WHERE Username= ? and Password = ?",(username,pw))
@@ -64,22 +68,7 @@ def connexion(username,pw):
         return False
 
 
-#### Update ####
-
-def change_pw(id, password):
-    connexion = sqlite3.connect("bdd.db")
-    curseur = connexion.cursor()
-    curseur.execute("UPDATE User SET Password = ? WHERE UserId = ?", (password, id))
-    connexion.commit()
-    connexion.close()
-
-#### Delete ####
-
-
-
-###reader_sommary##
-
-def reader_sommary(ChapterID):
+def read_sommary(ChapterID):
     """
     fonction afficher sommaire 
     : parametre numero de chapitre ID
@@ -90,4 +79,19 @@ def reader_sommary(ChapterID):
     curseur = connexion.cursor()
     curseur.execute("SELECT  Summary FROM Chapiter WHERE ChapterID= ?",(ChapterID,))
     return curseur.fetchone()
+#### Update ####
+
+def change_pw(id, password):
+    password = function.crypt(password)
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("UPDATE User SET Password = ? WHERE UserId = ?", (password, id))
+    connexion.commit()
+    connexion.close()
+
+#### Delete ####
+
+
+
+
    
