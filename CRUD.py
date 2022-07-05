@@ -32,9 +32,22 @@ def is_in_base(username):
         return True
     else:
         return False
-    
+
+def find_user_id(username):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT UserID FROM User WHERE Username= ?",(username,))
+    return curseur.fetchone()
+
+
+
 #### Update ####
 
-
+def change_pw(id, password):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("UPDATE User SET Password = ? WHERE UserId = ?", (password, id))
+    connexion.commit()
+    connexion.close()
 
 #### Delete ####
