@@ -8,10 +8,6 @@ def create_user(Username, Password):
     connexion.commit()
     connexion.close()
 
-username=input("username :")
-passw="Rien"
-
-
 
 
 #### Read   ####
@@ -39,6 +35,14 @@ def find_user_id(username):
     curseur.execute("SELECT UserID FROM User WHERE Username= ?",(username,))
     return curseur.fetchone()
 
+def connexion(username,pw):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT Username FROM User WHERE Username= ? and Password = ?",(username,pw))
+    if len(curseur.fetchall()) != 0:
+        return True
+    else:
+        return False
 
 
 #### Update ####
