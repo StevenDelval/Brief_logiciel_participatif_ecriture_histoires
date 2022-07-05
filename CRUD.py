@@ -19,6 +19,14 @@ def create_paragraph (ChapterID, UserID, paragraph):
     connexion.close()
 
 
+def create_Chapter(Summary_TEXT):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("INSERT INTO Chapter VALUES (?,?);", (None, Summary_TEXT))
+    connexion.commit()
+    connexion.close()
+
+
 
 
 #### Read   ####
@@ -66,5 +74,6 @@ def change_pw(id, password):
     connexion.close()
 
 #### Delete ####
+
 
 
