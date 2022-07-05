@@ -63,7 +63,7 @@ curseur.execute('''CREATE TABLE Challenge
 curseur.execute('''CREATE TABLE Caracter
                 (
                     CaracterID INTEGER PRIMARY KEY,
-                    FistName TEXT,
+                    FirstName TEXT,
                     LastName TEXT,
                     Resume TEXT
                 )
