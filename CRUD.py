@@ -1,4 +1,5 @@
 import sqlite3 
+from datetime import datetime
 
 #### Create ####
 def create_user(Username, Password):
@@ -7,6 +8,16 @@ def create_user(Username, Password):
     curseur.execute("INSERT INTO User VALUES (?,?,?);", (None,Username, Password))
     connexion.commit()
     connexion.close()
+
+
+
+def create_paragraph (ChapterID, UserID, paragraph):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("INSERT INTO Paragraph VALUES (?,?,?,?,?);", (None, ChapterID, UserID, str(datetime.now()), paragraph))
+    connexion.commit()
+    connexion.close()
+
 
 
 
@@ -29,10 +40,10 @@ def is_in_base(username):
     else:
         return False
 
-def find_user_id(username):
+def find_user_id(Username):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT UserID FROM User WHERE Username= ?",(username,))
+    curseur.execute("SELECT UserID FROM User WHERE Username= ?",(Username,))
     return curseur.fetchone()
 
 def connexion(username,pw):
@@ -55,3 +66,5 @@ def change_pw(id, password):
     connexion.close()
 
 #### Delete ####
+
+
