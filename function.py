@@ -1,3 +1,4 @@
+import os
 import hashlib
 
 
@@ -11,3 +12,14 @@ def crypt(password):
     hash_pwd.update(password.encode())
     hash_pwd = hash_pwd.hexdigest()
     return hash_pwd
+
+
+def clear_terminal():
+    """
+    Fonction qui nettoye le terminal.
+    """
+    my_os = os.name
+    if my_os == "posix":
+        os.system('clear')
+    else:
+        os.system('cls')
