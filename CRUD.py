@@ -77,3 +77,17 @@ def change_pw(id, password):
 
 
 
+###reader_sommary##
+
+def reader_sommary(ChapterID):
+    """
+    fonction afficher sommaire 
+    : parametre numero de chapitre ID
+    : return sommaire
+
+    """
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT  Summary FROM Chapiter WHERE ChapterID= ?",(ChapterID,))
+    return curseur.fetchone()
+   
