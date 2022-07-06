@@ -139,7 +139,11 @@ def afficher_histoire():
     curseur.execute("SELECT Paragraph.ChapterID, Summary, text FROM Chapter JOIN Paragraph ON Chapter.ChapterID = Paragraph.ChapterID ORDER BY ParagraphID ")
     return curseur.fetchall 
 
-
+def find_id_last_paragraph_():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT ParagraphID FROM Paragraph ORDER BY ParagraphID DESC LIMIT 1")
+    return curseur.fetchone()
 
 #### Update ####
 
@@ -153,7 +157,31 @@ def change_pw(id, password):
 
 #### Delete ####
 
+def delete_paragraph(ParagraphID):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("DELETE FROM Paragraph WHERE ParagraphID = ?; " , (ParagraphID,))
+    connexion.commit()
+    connexion.close()
 
+
+
+
+
+""" Username = input(" Entrez un nom d'utilisateur:  ")
+Password = input ("Entrez votre mot de passe:  ")
+User = create_user(Username,Password)
+Resume = input (" Entrez une brève description du chapitre:   ")
+create_chapter(Resume)
+
+text = input(" Entrez la suite de l'histoire:   ")
+
+create_paragraph (1, find_user_id(Username)[0], text)
+
+
+print (afficher_dernier_paragraph()) """
+
+delete_paragraph(find_id_last_paragraph_()[0])
 
 
 
