@@ -1,8 +1,6 @@
 import sqlite3 
 from datetime import datetime
 
-
-
 import function
 
 #### Create ####
@@ -24,7 +22,7 @@ def create_paragraph (ChapterID, UserID, paragraph):
     connexion.close()
 
 
-def create_Chapter(Summary_TEXT):
+def create_chapter(Summary_TEXT):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("INSERT INTO Chapter VALUES (?,?);", (None, Summary_TEXT))
@@ -43,6 +41,23 @@ def create_comment(text,ChapterID,UserID):
     curseur.execute("""INSERT INTO Comment VALUES (?,?,?,?,?)""",(None,ChapterID,UserID,str(datetime.now()),text ) )
     connexion.commit()
     connexion.close()
+
+def create_caracter(first_name,last_name,resume):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("INSERT INTO Caracter VALUES (?,?,?,?);", (None,first_name,last_name,resume ))
+    connexion.commit()
+    connexion.close()
+
+def create_isinchapter(caraterID,chapterID):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("""INSERT INTO IsInChapter VALUES(?,?));""",(caracterID,chapterID))
+
+
+
+
+create_caracter("zhang","henzo","apprenant")
 
 
 
@@ -91,20 +106,20 @@ def read_sommary(ChapterID):
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT  Summary FROM Chapter WHERE ChapterID= ?",(ChapterID,))
+    curseur.execute("SELECT  Summary FROM Chapiter WHERE ChapterID= ?",(ChapterID,))
     return curseur.fetchone()
 
+def read_caracter(caracterID):
+    """
+    fonction afficher  carater etchapiter
+    : parametre caracterID
+    : return chapterID
 
-
-def afficher_dernier_paragraph():
+    """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    # curseur.execute("SELECT text, UserID, date FROM Paragraph")
-    # curseur.lastrowid 
-    curseur.execute("SELECT User.Username, date, text FROM Paragraph JOIN USER ON USER.USERID = Paragraph.UserID ORDER BY ParagraphID DESC LIMIT 1")
-    last_paragraph = curseur.fetchone()
-    return last_paragraph
-
+    curseur.execute("SELECT  ChapterID FROM IsInChapter WHERE ChapterID= ?",(caracterID,))
+    return curseur.fetchone()
 
 
 
