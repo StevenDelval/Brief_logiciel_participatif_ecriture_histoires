@@ -1,10 +1,9 @@
-
-
+import function
 import CRUD
 
 # Connexion utilisateur 
 
-""" have_account = bool(int(input("Avez-vous un compte\n0 = Non\n1 = Oui\n")))
+have_account = bool(int(input("Avez-vous un compte\n0 = Non\n1 = Oui\n")))
 connected = False
 count = 0
 while not connected:
@@ -12,34 +11,43 @@ while not connected:
         username = input("Entrez votre nom utilisateur :")
         connected = CRUD.connexion(username,input("Entrez votre mot de passe :"))
         if connected :
+            function.clear_terminal()
             print("Bonjour {} !".format(username))
         else :
+            function.clear_terminal()
             print("Utilisateur ou mot de passe invalide")
             count += 1
     
     else:
         username = input("Entrez un nom utilisateur :")
         if CRUD.is_in_base(username) :
+            function.clear_terminal()
             print("Le nom utilisateur {} est deja pris !".format(username))
         else:
             CRUD.create_user(username, input("Entrez votre mot de passe :"))
             connected = True
+            function.clear_terminal()
             print("Bonjour {} !".format(username))
 
-    if count > 5 and not connected :    
+    if count > 5 and not connected : 
+        function.clear_terminal()   
         forgot_pwd = bool(int(input("Avez-vous un oubliez votre mot de passe\n0 = Non\n1 = Oui\n")))
         if forgot_pwd :
+            function.clear_terminal()
             username = input("Entrez votre nom utilisateur :")
             id=CRUD.find_user_id(username)
             
             if id is not None :
+                function.clear_terminal()
                 CRUD.change_pw(id[0],input("Entrez votre mot de passe :"))
             else:
+                function.clear_terminal()
                 print("Erreur !")
         else:
+            function.clear_terminal()
             have_account = bool(int(input("Avez-vous un compte\n0 = Non\n1 = Oui\n")))
 
- """
+"""
 # afficher_dernier_paragraphe
 # curseur.lastrowid
 
@@ -60,10 +68,16 @@ elif actions ==3:
     new_chapter = input (" Rentrez votre contribution: ")
     CRUD.create_paragraph(new_chapter)
 elif actions == 4:
-    CRUD.see_resume                                             # CREER FONCTION VOIR RESUME 
-elif 
-    CRUD.vote                                                   # CREER FONCTION VOTE 
-elif 
-    CRUD.see_character                                          # CREER FONCTION VOIR UN PERSO 
+    see_resume
+elif actions == 5 :
+    voter 
+elif actions ==6 :
+    voir_perso
+elif actions == 7 :
+    nouveau_chapitre
+elif actions ==8:
+    delete_chapter
+    
 
+"""
 
