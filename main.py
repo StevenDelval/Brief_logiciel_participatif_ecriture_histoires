@@ -1,6 +1,8 @@
 import function
 import CRUD
 
+
+function.clear_terminal()
 # Connexion utilisateur 
 
 have_account = bool(int(input("Avez-vous un compte\n0 = Non\n1 = Oui\n")))
@@ -47,6 +49,25 @@ while not connected:
             function.clear_terminal()
             have_account = bool(int(input("Avez-vous un compte\n0 = Non\n1 = Oui\n")))
 
+def interaction_with_user(username):
+    function.clear_terminal()
+    print("Bonjour {} ! \n".format(username))
+
+    dernier_paragraph=CRUD.afficher_dernier_paragraph()
+    print("""
+    Dernier message :  Chapitre {0}\n
+    Posté par : {1} | {2} \n
+    \n
+    {3}
+    """.format(dernier_paragraph[0],dernier_paragraph[1],dernier_paragraph[2],dernier_paragraph[3]))
+
+    actions = int(input("""Que voulez vous faire ?\n  \n 
+    1 = ecrire un paragraphe? \n 
+    2 = ecrire un commentaire? \n 
+    3 = lancer un vote?  \n 
+    4 = creer un nouveau chapitre?  \n 
+    """))
+interaction_with_user(username)
 """
 # afficher_dernier_paragraphe
 # curseur.lastrowid
