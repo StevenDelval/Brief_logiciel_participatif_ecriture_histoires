@@ -43,6 +43,11 @@ def create_comment(text,ChapterID,UserID):
     connexion.close()
 
 def create_caracter(first_name,last_name,resume):
+    """
+    fonction create caracter
+    :parametre first_name last_name,resume
+    :return base de donnee bdd.db
+    """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("INSERT INTO Caracter VALUES (?,?,?,?);", (None,first_name,last_name,resume ))
@@ -52,12 +57,11 @@ def create_caracter(first_name,last_name,resume):
 def create_isinchapter(caraterID,chapterID):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("""INSERT INTO IsInChapter VALUES(?,?));""",(caracterID,chapterID))
+    curseur.execute("INSERT INTO IsInChapter VALUES (?,?);", (caraterID,chapterID))
+    connexion.commit()
+    connexion.close()
 
 
-
-
-create_caracter("zhang","henzo","apprenant")
 
 
 
@@ -111,16 +115,15 @@ def read_sommary(ChapterID):
 
 def read_caracter(caracterID):
     """
-    fonction afficher  carater etchapiter
+    fonction afficher  carater dans chapiter
     : parametre caracterID
     : return chapterID
 
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT  ChapterID FROM IsInChapter WHERE ChapterID= ?",(caracterID,))
-    return curseur.fetchone()
-
+    curseur.execute("SELECT  ChapterID FROM IsInChapter WHERE CaracterID= ?",(caracterID,))
+    return curseur.fetchall()
 
 
 
