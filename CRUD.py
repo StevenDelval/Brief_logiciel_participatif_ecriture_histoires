@@ -137,7 +137,7 @@ def afficher_histoire():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("SELECT Paragraph.ChapterID, Summary, text FROM Chapter JOIN Paragraph ON Chapter.ChapterID = Paragraph.ChapterID ORDER BY ParagraphID ")
-    return curseur.fetchall 
+    return curseur.fetchall()
 
 
 
