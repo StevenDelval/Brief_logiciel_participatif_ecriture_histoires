@@ -63,13 +63,21 @@ elif actions == 1 :
     commentaire = input (" Rentrez votre contribution: ")
     CRUD.create_commentaire(commentaire)
 elif actions == 2:
-    start_poll
+    CRUD.start_poll                                             # CRÉER FONCTION LANCER UN VOTE 
 elif actions ==3:
     new_chapter = input (" Rentrez votre contribution: ")
     CRUD.create_paragraph(new_chapter)
 elif actions == 4:
     see_resume
-elif 
-"""
+elif actions == 5 :
+    voter 
+elif actions ==6 :
+    voir_perso
+elif actions == 7 :
+    nouveau_chapitre
+elif actions ==8:
+    delete_chapter
+    
 
+"""
 
