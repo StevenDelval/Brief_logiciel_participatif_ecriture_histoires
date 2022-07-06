@@ -168,24 +168,5 @@ def delete_paragraph(ParagraphID):
 
 
 
-""" Username = input(" Entrez un nom d'utilisateur:  ")
-Password = input ("Entrez votre mot de passe:  ")
-User = create_user(Username,Password)
-Resume = input (" Entrez une brève description du chapitre:   ")
-create_chapter(Resume)
-
-text = input(" Entrez la suite de l'histoire:   ")
-
-create_paragraph (1, find_user_id(Username)[0], text)
-
-
-print (afficher_dernier_paragraph()) """
-
-delete_paragraph(find_id_last_paragraph_()[0])
-
-
-
-
-
 
    
