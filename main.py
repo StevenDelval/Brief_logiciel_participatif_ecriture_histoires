@@ -1,5 +1,7 @@
 
 
+from socket import VM_SOCKETS_INVALID_VERSION
+from xml.sax.saxutils import prepare_input_source
 import CRUD
 
 # Connexion utilisateur 
@@ -61,7 +63,15 @@ elif actions ==3:
     CRUD.create_paragraph(new_chapter)
 elif actions == 4:
     see_resume
-elif 
+elif actions == 5 :
+    voter 
+elif actions ==6 :
+    voir_perso
+elif actions == 7 :
+    nouveau_chapitre
+elif actions ==8:
+    delete_chapter
+    
 
 
 
