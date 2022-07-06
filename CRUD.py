@@ -1,7 +1,7 @@
 import sqlite3 
 from datetime import datetime
 
-from matplotlib.pyplot import text
+
 
 import function
 
@@ -31,6 +31,18 @@ def create_Chapter(Summary_TEXT):
     connexion.commit()
     connexion.close()
 
+def create_comment(text,ChapterID,UserID):
+    """
+    fonction create_comment
+    :parametre text,ChapterID,UserID
+    :return bdd.Comment
+    """
+
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("""INSERT INTO Comment VALUES (?,?,?,?,?)""",(None,ChapterID,UserID,str(datetime.now()),text ) )
+    connexion.commit()
+    connexion.close()
 
 
 
@@ -111,3 +123,9 @@ def change_pw(id, password):
 
 
 
+
+
+
+
+
+   
