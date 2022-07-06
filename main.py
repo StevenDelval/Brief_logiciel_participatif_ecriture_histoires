@@ -5,7 +5,7 @@ import CRUD
 function.clear_terminal()
 # Connexion utilisateur 
 
-have_account = bool(int(input("Avez-vous un compte\n0 = Non\n1 = Oui\n")))
+have_account = bool(int(input("Avez-vous un compte ?\n0 = Non\n1 = Oui\n")))
 connected = False
 count = 0
 while not connected:
@@ -33,7 +33,7 @@ while not connected:
 
     if count > 5 and not connected : 
         function.clear_terminal()   
-        forgot_pwd = bool(int(input("Avez-vous un oubliez votre mot de passe\n0 = Non\n1 = Oui\n")))
+        forgot_pwd = bool(int(input("Avez-vous un oubliez votre mot de passe ?\n0 = Non\n1 = Oui\n")))
         if forgot_pwd :
             function.clear_terminal()
             username = input("Entrez votre nom utilisateur :")
@@ -47,11 +47,15 @@ while not connected:
                 print("Erreur !")
         else:
             function.clear_terminal()
-            have_account = bool(int(input("Avez-vous un compte\n0 = Non\n1 = Oui\n")))
+            have_account = bool(int(input("Avez-vous un compte ?\n0 = Non\n1 = Oui\n")))
+
 
 def interaction_with_user(username):
     function.clear_terminal()
     print("Bonjour {} ! \n".format(username))
+    
+
+
 
     dernier_paragraph=CRUD.afficher_dernier_paragraph()
     print("""
@@ -62,11 +66,27 @@ def interaction_with_user(username):
     """.format(dernier_paragraph[0],dernier_paragraph[1],dernier_paragraph[2],dernier_paragraph[3]))
 
     actions = int(input("""Que voulez vous faire ?\n  \n 
-    1 = ecrire un paragraphe? \n 
-    2 = ecrire un commentaire? \n 
-    3 = lancer un vote?  \n 
-    4 = creer un nouveau chapitre?  \n 
+    1 = Lire l'histoire \n 
+    2 = Contester le dernier message \n 
+    3 = Écrire la suite  \n 
+    4 = Se Déconnecter   \n 
     """))
+    if actions == 1:
+        function.clear_terminal()
+        histoire=CRUD.afficher_histoire()
+        for i in histoire:
+            print(i)
+
+        actions = int(input("""Que voulez vous faire ?\n  \n 
+            1 = Aller à la page suivante \n 
+            2 = Aller à la page précédente  \n 
+            3 = Choisir un chapitre   \n 
+            4 = Retourner au menu précédent    \n
+            5 = Lire les commentaires du chapitre    \n 
+            6 = Écrire un commentaire sur le chapitre    \n 
+            """))    
+        if actions == 4:
+            interaction_with_user(username)
 interaction_with_user(username)
 """
 # afficher_dernier_paragraphe
