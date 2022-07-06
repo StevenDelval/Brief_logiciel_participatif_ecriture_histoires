@@ -1,6 +1,8 @@
 import sqlite3 
 from datetime import datetime
 
+from matplotlib.pyplot import text
+
 import function
 
 #### Create ####
@@ -77,8 +79,24 @@ def read_sommary(ChapterID):
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT  Summary FROM Chapiter WHERE ChapterID= ?",(ChapterID,))
+    curseur.execute("SELECT  Summary FROM Chapter WHERE ChapterID= ?",(ChapterID,))
     return curseur.fetchone()
+
+
+
+def afficher_dernier_paragraph():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    # curseur.execute("SELECT text, UserID, date FROM Paragraph")
+    # curseur.lastrowid 
+    curseur.execute("SELECT User.Username, date, text FROM Paragraph JOIN USER ON USER.USERID = Paragraph.UserID ORDER BY ParagraphID DESC LIMIT 1")
+    last_paragraph = curseur.fetchone()
+    return last_paragraph
+
+
+
+
+
 #### Update ####
 
 def change_pw(id, password):
@@ -93,5 +111,3 @@ def change_pw(id, password):
 
 
 
-
-   
