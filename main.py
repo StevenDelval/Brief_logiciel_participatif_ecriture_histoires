@@ -72,20 +72,26 @@ def interaction_with_user(username):
     4 = Se Déconnecter   \n 
     """))
     if actions == 1:
+        
         function.clear_terminal()
         histoire=CRUD.afficher_histoire()
-        for i in histoire:
-            print(i)
-
-        actions = int(input("""Que voulez vous faire ?\n  \n 
-            1 = Aller à la page suivante \n 
-            2 = Aller à la page précédente  \n 
-            3 = Choisir un chapitre   \n 
-            4 = Retourner au menu précédent    \n
-            5 = Lire les commentaires du chapitre    \n 
-            6 = Écrire un commentaire sur le chapitre    \n 
-            """))    
-        if actions == 4:
+        i = 0
+        actions_lire =0
+        print(histoire)
+        while actions_lire !=1 or actions_lire !=2 or actions_lire !=3:
+            actions_lire = int(input("""Que voulez vous faire ?\n  \n 
+                1 = Aller à la page suivante \n 
+                2 = Aller à la page précédente  \n 
+                3 = Choisir un chapitre   \n 
+                4 = Retourner au menu précédent    \n
+                5 = Lire les commentaires du chapitre    \n 
+                6 = Écrire un commentaire sur le chapitre    \n 
+                """))
+            if actions_lire == 1:
+                i += 1
+            if actions_lire == 2:
+                i -= 1  
+        if actions_lire == 4:
             interaction_with_user(username)
 interaction_with_user(username)
 """
