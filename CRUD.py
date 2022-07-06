@@ -129,7 +129,7 @@ def read_caracter(caracterID):
 def afficher_dernier_paragraph():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT User.Username, date, text FROM Paragraph JOIN USER ON USER.USERID = Paragraph.UserID ORDER BY ParagraphID DESC LIMIT 1")
+    curseur.execute("SELECT chapterID,User.Username, date, text FROM Paragraph JOIN User ON User.UserID = Paragraph.UserID ORDER BY ParagraphID DESC LIMIT 1")
     last_paragraph = curseur.fetchone()
     return last_paragraph
 
@@ -137,9 +137,13 @@ def afficher_histoire():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("SELECT Paragraph.ChapterID, Summary, text FROM Chapter JOIN Paragraph ON Chapter.ChapterID = Paragraph.ChapterID ORDER BY ParagraphID ")
-    return curseur.fetchall 
+    return curseur.fetchall()
 
-
+def find_id_last_paragraph_():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT ParagraphID FROM Paragraph ORDER BY ParagraphID DESC LIMIT 1")
+    return curseur.fetchone()
 
 #### Update ####
 
@@ -153,7 +157,12 @@ def change_pw(id, password):
 
 #### Delete ####
 
-
+def delete_paragraph(ParagraphID):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("DELETE FROM Paragraph WHERE ParagraphID = ?; " , (ParagraphID,))
+    connexion.commit()
+    connexion.close()
 
 
 
