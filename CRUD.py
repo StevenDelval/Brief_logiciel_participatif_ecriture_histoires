@@ -126,6 +126,20 @@ def read_caracter(caracterID):
     return curseur.fetchall()
 
 
+def afficher_dernier_paragraph():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT User.Username, date, text FROM Paragraph JOIN USER ON USER.USERID = Paragraph.UserID ORDER BY ParagraphID DESC LIMIT 1")
+    last_paragraph = curseur.fetchone()
+    return last_paragraph
+
+def afficher_histoire():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT Paragraph.ChapterID, Summary, text FROM Chapter JOIN Paragraph ON Chapter.ChapterID = Paragraph.ChapterID ORDER BY ParagraphID ")
+    return curseur.fetchall 
+
+
 
 #### Update ####
 
