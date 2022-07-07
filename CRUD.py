@@ -252,7 +252,7 @@ def update_comment(commentID,text,userID):
     connexion.close()
 
 
-update_comment(1,"c'est tres bien ","yanis")
+
 #### Delete ####
 
 def delete_paragraph(ParagraphID):
