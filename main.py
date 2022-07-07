@@ -40,8 +40,8 @@ def interaction_with_user(username):
                 1 : Lire paragraphe suivant 2 : Lire paragraphe précédent 
                 3 : Choisir un chapitre   \n 
                 4 : Retourner au menu précédent  
-                5 : Lire les commentaires du chapitre 6 : Écrire un commentaire sur le chapitre    \n
-                6 : Modifez resumer d'un chapitre
+                5 : Lire les commentaires d'un chapitre  6 : Écrire un commentaire sur un chapitre\n
+                7 : Modifez resumer d'un chapitre
                 """))
             if actions_lire == 1:
                 if i != len(histoire):
@@ -62,7 +62,7 @@ def interaction_with_user(username):
                 interaction_with_user(username)
             
             
-            if actions_lire == 6:
+            if actions_lire == 7:
                 function.clear_terminal()
                 chapitreid = int(input("Entrez le numero du chapitre dont vous voulez modifier le resumer :"))
                 resumer = input("Entrez le nouveau resumer :")
