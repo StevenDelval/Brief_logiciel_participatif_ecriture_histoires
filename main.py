@@ -23,10 +23,8 @@ def interaction_with_user(username):
     """.format(dernier_paragraph[0],dernier_paragraph[1],dernier_paragraph[2],dernier_paragraph[3]))
 
     actions = int(input("""Que voulez vous faire ?\n  \n 
-    1 = Lire l'histoire \n 
-    2 = Contester le dernier message \n 
-    3 = Écrire la suite  \n 
-    4 = Se Déconnecter   \n 
+    1 : Lire l'histoire 2 : Contester le dernier message 
+    3 : Écrire la suite  4 : Se Déconnecter   \n 
     """))
     if actions == 1:
         
@@ -34,20 +32,29 @@ def interaction_with_user(username):
         histoire=CRUD.afficher_histoire()
         i = 0
         actions_lire =0
-        print(histoire)
+        function.print_paragraph(i,histoire)
         while actions_lire !=1 or actions_lire !=2 or actions_lire !=3:
             actions_lire = int(input("""Que voulez vous faire ?\n  \n 
-                1 = Aller à la page suivante \n 
-                2 = Aller à la page précédente  \n 
-                3 = Choisir un chapitre   \n 
-                4 = Retourner au menu précédent    \n
-                5 = Lire les commentaires du chapitre    \n 
-                6 = Écrire un commentaire sur le chapitre    \n 
+                1 : Lire paragraphe suivant 2 : Lire paragraphe précédent 
+                3 : Choisir un chapitre   \n 
+                4 : Retourner au menu précédent  
+                5 : Lire les commentaires du chapitre 6 : Écrire un commentaire sur le chapitre    \n 
                 """))
             if actions_lire == 1:
-                i += 1
+                if i != len(histoire):
+                    i += 1
+                
+                function.print_paragraph(i,histoire)
             if actions_lire == 2:
-                i -= 1  
+                if i > 0:
+                    i -= 1
+                function.print_paragraph(i,histoire)
+                
+            if actions_lire == 3:
+                function.clear_terminal()
+                chapitre = int(input("Entrez le numero du chapitre choisie:"))
+                i = function.find_index_chapter(chapitre,histoire)
+                function.print_paragraph(i,histoire)
             if actions_lire == 4:
                 interaction_with_user(username)
     if actions == 4 :
