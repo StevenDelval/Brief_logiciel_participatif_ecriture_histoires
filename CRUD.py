@@ -53,7 +53,7 @@ def create_comment(text,ChapterID,UserID):
     connexion.commit()
     connexion.close()
 
-def create_caracter(first_name,last_name,resume):
+def create_caracter(first_name, last_name, description):
     """
     fonction create caracter
     :parametre first_name last_name,resume
@@ -61,14 +61,14 @@ def create_caracter(first_name,last_name,resume):
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("INSERT INTO Caracter VALUES (?,?,?,?);", (None,first_name,last_name,resume ))
+    curseur.execute("INSERT INTO Caracter VALUES (?,?,?,?);", (None, first_name, last_name, description ))
     connexion.commit()
     connexion.close()
 
-def create_isinchapter(caraterID,chapterID):
+def create_isinchapter(caracterID,chapterID):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("INSERT INTO IsInChapter VALUES (?,?);", (caraterID,chapterID))
+    curseur.execute("INSERT INTO IsInChapter VALUES (?,?);", (caracterID,chapterID))
     connexion.commit()
     connexion.close()
 
@@ -94,6 +94,15 @@ def is_in_base(username):
         return True
     else:
         return False
+
+
+def isInChapter(CaracterID):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT CaracterID FROM Caracter JOIN IsInChapter ON Caracter.CaracterID = IsInChapter.CaracterID WHERE FirstName = ? ",(CaracterID,))
+    print(curseur.fetchall())
+    connexion.close()
+
 
 def find_user_id(Username):
     connexion = sqlite3.connect("bdd.db")
@@ -192,4 +201,5 @@ def delete_paragraph(ParagraphID):
 
 
 
-   
+
+
