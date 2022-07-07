@@ -11,22 +11,18 @@ def interaction_with_user(username):
     """
     function.clear_terminal()
     print("Bonjour {} ! \n".format(username))
-    
-
+    conteste = CRUD.challenge_is_in_progress()
+    if conteste:
+        print("Challenge en cour!")
+        action_connection = "Que voulez vous faire ?\n  \n 1 : Lire l'histoire 2 : Contester le dernier message 3 : Écrire la suite  4 : Se Déconnecter   \n "
+    else :
+        action_connection = "Que voulez vous faire ?\n  \n 1 : Lire l'histoire 2 : Voter  4 : Se Déconnecter   \n "
 
 
     dernier_paragraph=CRUD.afficher_dernier_paragraph()
-    print("""
-    Dernier message :  Chapitre {0}\n
-    Posté par : {1} | {2} \n
-    \n
-    {3}
-    """.format(dernier_paragraph[0],dernier_paragraph[1],dernier_paragraph[2],dernier_paragraph[3]))
+    function.print_last_paragraph(dernier_paragraph)
 
-    actions = int(input("""Que voulez vous faire ?\n  \n 
-    1 : Lire l'histoire 2 : Contester le dernier message 
-    3 : Écrire la suite  4 : Se Déconnecter   \n 
-    """))
+    actions = int(input(action_connection))
     if actions == 1:
         
         function.clear_terminal()
@@ -69,24 +65,21 @@ def interaction_with_user(username):
                 CRUD.update_summary(chapitreid, resumer)
                 histoire=CRUD.afficher_histoire()
     if actions == 2 :
-        function.clear_terminal()
-        dernier_paragraph=CRUD.afficher_dernier_paragraph()
-        print("""Chapitre {0} : Résumé\n
-        {4}\n
-        ________
-        \n
-        Posté par : {1} | {2} \n
-        \n
-        {3}
-        """.format(dernier_paragraph[0],dernier_paragraph[1],dernier_paragraph[2],dernier_paragraph[3],dernier_paragraph[4]))
-        contester = bool(int(input("Voulez-vous contester le dernier paragraphe ?\n0 = Non\n1 = Oui\n")))
-        if contester :
-            commentaire = input("Entrez un commentaire")
-            CRUD.start_challenge(CRUD.find_user_id(username),CRUD.find_id_last_chapter(),commentaire)
-            interaction_with_user(username)
+        if not conteste:
+            function.clear_terminal()
+            dernier_paragraph=CRUD.afficher_dernier_paragraph()
+            function.print_last_paragraph(dernier_paragraph)
+            contester = bool(int(input("Voulez-vous contester le dernier paragraphe ?\n0 = Non\n1 = Oui\n")))
+            if contester :
+                commentaire = input("Entrez un commentaire")
+                CRUD.start_challenge(CRUD.find_user_id(username),CRUD.find_id_last_chapter(),commentaire)
+                interaction_with_user(username)
+            else :
+                interaction_with_user(username)
         else :
-            interaction_with_user(username)
-        
+            pass
+    if actions == 3 and not conteste:
+        pass   
     if actions == 4 :
         return False
 

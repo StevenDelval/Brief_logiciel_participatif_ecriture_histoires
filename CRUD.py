@@ -176,6 +176,14 @@ def find_id_last_chapter():
     last_chapter = curseur.fetchone()
     return last_chapter[0]
 
+def challenge_is_in_progress():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT * FROM Challenge")
+    if len(curseur.fetchall()) !=0:
+        return True
+    else:
+        return False
 #### Update ####
 
 def change_pw(id, password):
