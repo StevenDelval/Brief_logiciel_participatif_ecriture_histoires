@@ -68,7 +68,23 @@ def interaction_with_user(username):
                 resumer = input("Entrez le nouveau resumer :")
                 CRUD.update_summary(chapitreid, resumer)
                 histoire=CRUD.afficher_histoire()
-
+    if actions == 2 :
+        function.clear_terminal()
+        dernier_paragraph=CRUD.afficher_dernier_paragraph()
+        print("""Chapitre {0} : Résumé\n
+        {4}\n
+        ________
+        \n
+        Posté par : {1} | {2} \n
+        \n
+        {3}
+        """.format(dernier_paragraph[0],dernier_paragraph[1],dernier_paragraph[2],dernier_paragraph[3],dernier_paragraph[4]))
+        contester = bool(int(input("Voulez-vous contester le dernier paragraphe ?\n0 = Non\n1 = Oui\n")))
+        if contester :
+            pass
+        else :
+            interaction_with_user(username)
+        
     if actions == 4 :
         return False
 
