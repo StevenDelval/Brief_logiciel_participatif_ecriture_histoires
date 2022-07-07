@@ -33,13 +33,15 @@ def interaction_with_user(username):
         histoire=CRUD.afficher_histoire()
         i = 0
         actions_lire =0
-        function.print_paragraph(i,histoire)
-        while actions_lire !=1 or actions_lire !=2 or actions_lire !=3:
+        
+        while actions_lire !=4:
+            function.print_paragraph(i,histoire)
             actions_lire = int(input("""Que voulez vous faire ?\n  \n 
                 1 : Lire paragraphe suivant 2 : Lire paragraphe précédent 
                 3 : Choisir un chapitre   \n 
                 4 : Retourner au menu précédent  
-                5 : Lire les commentaires du chapitre 6 : Écrire un commentaire sur le chapitre    \n 
+                5 : Lire les commentaires du chapitre 6 : Écrire un commentaire sur le chapitre    \n
+                6 : Modifez resumer d'un chapitre
                 """))
             if actions_lire == 1:
                 if i != len(histoire):
@@ -58,6 +60,15 @@ def interaction_with_user(username):
                 function.print_paragraph(i,histoire)
             if actions_lire == 4:
                 interaction_with_user(username)
+            
+            
+            if actions_lire == 6:
+                function.clear_terminal()
+                chapitreid = int(input("Entrez le numero du chapitre dont vous voulez modifier le resumer :"))
+                resumer = input("Entrez le nouveau resumer :")
+                CRUD.update_summary(chapitreid, resumer)
+                histoire=CRUD.afficher_histoire()
+
     if actions == 4 :
         return False
 
