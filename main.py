@@ -154,9 +154,13 @@ def interaction_with_user(username):
 
 
     if actions == 3 and not conteste:
+        
         ##########################
         # 3 : Écrire la suite    #
         ##########################
+        
+        
+        ##CRUD.create_paragraph (CRUD.find_id_lastchapter(), CRUD.find_user_id(Username)[0], paragraph)
         print("Hello") 
     if actions == 4 :
         return False
