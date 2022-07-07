@@ -140,7 +140,7 @@ def read_caracter(caracterID):
 def afficher_dernier_paragraph():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT chapterID,User.Username, date, text FROM Paragraph JOIN User ON User.UserID = Paragraph.UserID ORDER BY ParagraphID DESC LIMIT 1")
+    curseur.execute("SELECT ChapterID, User.Username, date, text FROM Paragraph JOIN User ON User.UserID = Paragraph.UserID ORDER BY ParagraphID DESC LIMIT 1")
     last_paragraph = curseur.fetchone()
     return last_paragraph
 
@@ -156,6 +156,13 @@ def find_id_last_paragraph_():
     curseur.execute("SELECT ParagraphID FROM Paragraph ORDER BY ParagraphID DESC LIMIT 1")
     return curseur.fetchone()
 
+def find_id_last_chapter_():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT ChapterID FROM Chapter ORDER BY ChapterID DESC LIMIT 1")
+    last_chapter = curseur.fetchone()
+    return last_chapter[0]
+
 #### Update ####
 
 def change_pw(id, password):
@@ -163,6 +170,13 @@ def change_pw(id, password):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("UPDATE User SET Password = ? WHERE UserId = ?", (password, id))
+    connexion.commit()
+    connexion.close()
+
+def update_summary(ChapterID, Summary):  #changer le résumé 
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("UPDATE Chapter SET Summary  = ? WHERE ChapterID = ?",(ChapterID, Summary,))
     connexion.commit()
     connexion.close()
 
@@ -174,7 +188,6 @@ def delete_paragraph(ParagraphID):
     curseur.execute("DELETE FROM Paragraph WHERE ParagraphID = ?; " , (ParagraphID,))
     connexion.commit()
     connexion.close()
-
 
 
 
