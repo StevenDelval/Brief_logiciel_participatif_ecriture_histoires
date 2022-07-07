@@ -252,7 +252,7 @@ def update_chapter(chapterID,summary):
     connexion.commit()
     connexion.close()
 
-''' def update_comment(commentID,text,userID):
+def update_comment(commentID,text,userID):
     """
     function update comment
     :parametre chapterID,summary
@@ -261,11 +261,13 @@ def update_chapter(chapterID,summary):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("UPDATE Comment SET  Text= ? WHERE CommentID = ?", (text, commentID))
-    curseur.execute("UPDATE Comment SET  Date=?" (str(datetime.now())))
-    curseur.execute("UPDATE Comment SET  UserID ? WHERE CommentID = ?", (userID, commentID))
+    curseur.execute("UPDATE Comment SET  Date = ?WHERE CommentID=?", (str(datetime.now()),commentID))
+    curseur.execute("UPDATE Comment SET UserID=? WHERE CommentID=?", (userID, commentID))
     connexion.commit()
     connexion.close()
-'''
+
+
+
 #### Delete ####
 
 def delete_paragraph(ParagraphID):
