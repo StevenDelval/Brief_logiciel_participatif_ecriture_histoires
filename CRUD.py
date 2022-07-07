@@ -54,7 +54,7 @@ def create_comment(text,ChapterID,UserID):
     connexion.close()
 
 
-def create_caracter(first_name, last_name, description):
+def create_caracter(first_name, last_name, resume):
     """
     fonction create caracter
     :parametre first_name last_name,resume
@@ -62,7 +62,7 @@ def create_caracter(first_name, last_name, description):
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("INSERT INTO Caracter VALUES (?,?,?,?);", (None, first_name, last_name, description ))
+    curseur.execute("INSERT INTO Caracter VALUES (?,?,?,?);", (None, first_name, last_name, resume ))
     connexion.commit()
     connexion.close()
 
