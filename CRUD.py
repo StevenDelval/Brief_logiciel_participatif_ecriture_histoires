@@ -177,6 +177,7 @@ def update_summary(ChapterID, Summary):  #changer le résumé
     curseur.execute("UPDATE Chapter SET Summary  = ? WHERE ChapterID = ?",(Summary,ChapterID ))
     connexion.commit()
     connexion.close()
+
 def update_user(UserID,Username=None,password=None,):
     """
     function update chapter
@@ -250,17 +251,6 @@ def update_comment(commentID,text,userID):
     connexion.commit()
     connexion.close()
 
-def update_paragraph(commentID,text,userID):
-    """
-    function update comment
-    :parametre chapterID,summary
-    :return Chapter
-    """
-    connexion = sqlite3.connect("bdd.db")
-    curseur = connexion.cursor()
-    curseur.execute("UPDATE Comment SET  Text= ? WHERE CommentID = ?", (text, commentID))
-    curseur.execute("UPDATE Comment SET  Date=?" (str(datetime.now())))
-    curseur.execute("UPDATE Comment SET  UserID ? WHERE CommentID = ?", (userID, commentID))
 #### Delete ####
 
 def delete_paragraph(ParagraphID):
