@@ -53,6 +53,7 @@ curseur.execute('''CREATE TABLE Challenge
                     ParagraphID INTEGER,
                     Text TEXT,
                     Vote INTEGER,
+                    date TEXT, 
                     FOREIGN KEY(UserID)
                         REFERENCES User(UserID),
                     FOREIGN KEY(ParagraphID)

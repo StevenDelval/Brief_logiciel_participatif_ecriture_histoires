@@ -76,7 +76,10 @@ def create_isinchapter(caracterID,chapterID):
 def start_challenge(UserId,ParagraphID,commentaire):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("INSERT INTO Challenge VALUES (?,?,?,?)",(UserId,ParagraphID,commentaire,1))
+    now = datetime.now()
+    date_format_str = "%d/%m/%Y %H:%M:%S.%f"
+    date_now = now.strftime(date_format_str)
+    curseur.execute("INSERT INTO Challenge VALUES (?,?,?,?,?)",(UserId,ParagraphID,commentaire,1,date_now))
     connexion.commit()
     connexion.close()
 
@@ -100,6 +103,14 @@ def vote_utilisateur(userID):
     connexion.commit()
     connexion.close()
 #### Read   ####
+def temps_challenge():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT date FROM Challenge")
+    
+    return curseur.fetchone()
+
+
 def a_voter(userID):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()

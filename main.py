@@ -1,8 +1,9 @@
 from time import sleep
+from datetime import datetime
+from datetime import timedelta
+
 import function
 import CRUD
-
-
 function.clear_terminal()
 
 def interaction_with_user(username):
@@ -11,9 +12,28 @@ def interaction_with_user(username):
     :return (bool): Renvoie faux lorsque l'utilisateur se deconnecte
     """
     function.clear_terminal()
-    dernier_paragraph=CRUD.afficher_dernier_paragraph()
+   
     print("Bonjour {} ! \n".format(username))
     conteste = CRUD.challenge_is_in_progress()
+
+    if conteste :
+        date_format_str = "%d/%m/%Y %H:%M:%S.%f"
+        date_debut= CRUD.temps_challenge()[0]
+        date_debut= datetime.strptime(date_debut, date_format_str)
+        
+        now = datetime.now()
+        date_now = now.strftime(date_format_str)
+        date_now = datetime.strptime(date_now, date_format_str)
+        
+        date_fin = date_debut  + timedelta(seconds=30)
+        if date_now > date_fin:
+            conteste = False
+            if CRUD.nombre_vote()[0] > 0:
+                CRUD.delete_paragraph(CRUD.find_id_last_paragraph()[0])
+            CRUD.delete_challenge()
+            CRUD.fin_vote()
+            
+    dernier_paragraph=CRUD.afficher_dernier_paragraph()
     if conteste:
         paragraph_contest = CRUD.read_challenge()
         function.print_paragraph_contest(paragraph_contest,dernier_paragraph)
