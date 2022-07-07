@@ -228,6 +228,18 @@ def nombre_vote():
     curseur.execute("SELECT  Vote FROM Challenge")
     vote = curseur.fetchone()
     return vote
+
+def read_chapter(chapterID):
+    """
+    fonction afficher le sommaire de la chapiterid
+    :parametre chapiterID
+    :return summary
+    """
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT Summary FROM Chapter WHERE ChapterID =?",(chapterID))
+    return curseur.fetchone()
+
 #### Update ####
 
 def change_pw(id, password):
