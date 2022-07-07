@@ -72,7 +72,12 @@ def create_isinchapter(caracterID,chapterID):
     connexion.commit()
     connexion.close()
 
-
+def start_challenge(UserId,ParagraphID,commentaire):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("INSERT INTO Challenge VALUES (?,?,?,?)",(UserId,ParagraphID,commentaire,1))
+    connexion.commit()
+    connexion.close()
 
 
 
@@ -126,7 +131,6 @@ def read_sommary(ChapterID):
     fonction afficher sommaire 
     : parametre numero de chapitre ID
     : return sommaire
-
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
@@ -138,7 +142,6 @@ def read_caracter(caracterID):
     fonction afficher  carater dans chapiter
     : parametre caracterID
     : return chapterID
-
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
@@ -149,7 +152,7 @@ def read_caracter(caracterID):
 def afficher_dernier_paragraph():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT ChapterID, User.Username, date, text FROM Paragraph JOIN User ON User.UserID = Paragraph.UserID ORDER BY ParagraphID DESC LIMIT 1")
+    curseur.execute("SELECT Paragraph.ChapterID, User.Username, date, text,Summary FROM Paragraph JOIN User ON User.UserID = Paragraph.UserID JOIN Chapter ON Chapter.ChapterID = Paragraph.ChapterID  ORDER BY ParagraphID DESC LIMIT 1")
     last_paragraph = curseur.fetchone()
     return last_paragraph
 
@@ -159,13 +162,13 @@ def afficher_histoire():
     curseur.execute("SELECT Paragraph.ChapterID, Summary, text FROM Chapter JOIN Paragraph ON Chapter.ChapterID = Paragraph.ChapterID ORDER BY ParagraphID ")
     return curseur.fetchall()
 
-def find_id_last_paragraph_():
+def find_id_last_paragraph():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("SELECT ParagraphID FROM Paragraph ORDER BY ParagraphID DESC LIMIT 1")
     return curseur.fetchone()
 
-def find_id_last_chapter_():
+def find_id_last_chapter():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("SELECT ChapterID FROM Chapter ORDER BY ChapterID DESC LIMIT 1")
@@ -189,6 +192,79 @@ def update_summary(ChapterID, Summary):  #changer le résumé
     connexion.commit()
     connexion.close()
 
+def update_user(UserID,Username=None,password=None,):
+    """
+    function update chapter
+    :parametre chapterID,summary
+    :return Chapter
+    """
+    
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    if password is not None:
+        password = crypt(password)
+        curseur.execute("UPDATE User SET Password = ? WHERE UserId = ?", (password, UserID))
+    if Username is not None:
+        curseur.execute("UPDATE User SET Username = ? WHERE UserId = ?", (Username, UserID))
+    connexion.commit()
+    connexion.close()
+
+def update_caracter(CaracterID,FirstName=None,LastName=None,Resume=None):
+    """
+    function update caracter
+    :parametre CaracterID,FirstName=None,LastName=None,Resume=None
+    :return Caracter
+    """
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    if  FirstName is not None:
+       curseur.execute("UPDATE Caracter SET FirstName = ? WHERE UserId = ?", (FirstName, CaracterID))
+    if  LastName is not None:
+       curseur.execute("UPDATE Caracter SET LastName = ? WHERE UserId = ?", (LastName, CaracterID))
+    if  Resume is not None:
+       curseur.execute("UPDATE Caracter SET Resume = ? WHERE UserId = ?", (LastName, CaracterID))
+    connexion.commit()
+    connexion.close()
+
+def update_challenge(ParagraphID,Vote=None):
+    """
+    function update challenge
+    :parametre ParagraphID,Vote=None
+    :return Challenge
+    """
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("UPDATE Challenge SET Vote= ? WHERE ParagraphID = ?", (Vote, ParagraphID))
+   
+    connexion.commit()
+    connexion.close()
+
+def update_chapter(chapterID,summary):
+    """
+    function update chapter
+    :parametre chapterID,summary
+    :return Chapter
+    """
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("UPDATE Chapter SET Summary = ? WHERE ChapterID = ?", (summary, chapterID))
+    connexion.commit()
+    connexion.close()
+
+''' def update_comment(commentID,text,userID):
+    """
+    function update comment
+    :parametre chapterID,summary
+    :return Chapter
+    """
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("UPDATE Comment SET  Text= ? WHERE CommentID = ?", (text, commentID))
+    curseur.execute("UPDATE Comment SET  Date=?" (str(datetime.now())))
+    curseur.execute("UPDATE Comment SET  UserID ? WHERE CommentID = ?", (userID, commentID))
+    connexion.commit()
+    connexion.close()
+'''
 #### Delete ####
 
 def delete_paragraph(ParagraphID):
