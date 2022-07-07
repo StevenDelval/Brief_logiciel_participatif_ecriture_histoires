@@ -11,6 +11,18 @@ def clear_terminal():
     else:
         os.system('cls')
 
+def print_last_paragraph(dernier_paragraph):
+    
+    print("""Chapitre {0} : Résumé\n
+        {4}\n
+        ________
+        \n
+        Posté par : {1} | {2} \n
+        \n
+        {3}
+        """.format(dernier_paragraph[0],dernier_paragraph[1],dernier_paragraph[2],dernier_paragraph[3],dernier_paragraph[4]))
+        
+
 def print_paragraph(index,paragraphs):
     """
     Fonction qui affiche le numero de chapitre, le resumer un paragraphe
