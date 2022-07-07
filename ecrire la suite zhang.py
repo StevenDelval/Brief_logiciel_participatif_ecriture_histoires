@@ -8,16 +8,11 @@ curseur = connexion.cursor()
 
 clear_terminal()
 
-print(CRUD.find_id_last_chapter())
+print("Chapitre"+CRUD.find_id_last_chapter)
+print(CRUD.read_chapter(CRUD.find_id_last_chapter))
+print("----------------------")
+print("Liste des personnages:")
+"CRUD.read_chapter(CRUD.find_id_last_chapter())"/n /n Dernier message :/n")
 
-def read_chapter(chapterID):
-    """
-    fonction afficher le sommaire de la chapiterid
-    :parametre chapiterID
-    :return summary
-    """
-    connexion = sqlite3.connect("bdd.db")
-    curseur = connexion.cursor()
-    curseur.execute("SELECT Summary FROM Chapter WHERE ChapterID =?",(chapterID))
-    return curseur.fetchone()
 
+input 
