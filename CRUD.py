@@ -138,7 +138,7 @@ def read_caracter(caracterID):
 def afficher_dernier_paragraph():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT ChapterID, User.Username, date, text FROM Paragraph JOIN User ON User.UserID = Paragraph.UserID ORDER BY ParagraphID DESC LIMIT 1")
+    curseur.execute("SELECT Paragraph.ChapterID, User.Username, date, text,Summary FROM Paragraph JOIN User ON User.UserID = Paragraph.UserID JOIN Chapter ON Chapter.ChapterID = Paragraph.ChapterID  ORDER BY ParagraphID DESC LIMIT 1")
     last_paragraph = curseur.fetchone()
     return last_paragraph
 
@@ -237,7 +237,7 @@ def update_chapter(chapterID,summary):
     connexion.commit()
     connexion.close()
 
-def update_comment(commentID,text,userID):
+''' def update_comment(commentID,text,userID):
     """
     function update comment
     :parametre chapterID,summary
@@ -250,7 +250,7 @@ def update_comment(commentID,text,userID):
     curseur.execute("UPDATE Comment SET  UserID ? WHERE CommentID = ?", (userID, commentID))
     connexion.commit()
     connexion.close()
-
+'''
 #### Delete ####
 
 def delete_paragraph(ParagraphID):
