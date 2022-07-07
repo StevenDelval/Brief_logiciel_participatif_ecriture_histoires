@@ -3,54 +3,11 @@ import CRUD
 
 
 function.clear_terminal()
-# Connexion utilisateur 
-
-have_account = bool(int(input("Avez-vous un compte ?\n0 = Non\n1 = Oui\n")))
-connected = False
-count = 0
-while not connected:
-    if have_account :
-        username = input("Entrez votre nom utilisateur :")
-        connected = CRUD.connexion(username,input("Entrez votre mot de passe :"))
-        if connected :
-            function.clear_terminal()
-            print("Bonjour {} !".format(username))
-        else :
-            function.clear_terminal()
-            print("Utilisateur ou mot de passe invalide")
-            count += 1
-    
-    else:
-        username = input("Entrez un nom utilisateur :")
-        if CRUD.is_in_base(username) :
-            function.clear_terminal()
-            print("Le nom utilisateur {} est deja pris !".format(username))
-        else:
-            CRUD.create_user(username, input("Entrez votre mot de passe :"))
-            connected = True
-            function.clear_terminal()
-            print("Bonjour {} !".format(username))
-
-    if count > 5 and not connected : 
-        function.clear_terminal()   
-        forgot_pwd = bool(int(input("Avez-vous un oubliez votre mot de passe ?\n0 = Non\n1 = Oui\n")))
-        if forgot_pwd :
-            function.clear_terminal()
-            username = input("Entrez votre nom utilisateur :")
-            id=CRUD.find_user_id(username)
-            
-            if id is not None :
-                function.clear_terminal()
-                CRUD.change_pw(id[0],input("Entrez votre mot de passe :"))
-            else:
-                function.clear_terminal()
-                print("Erreur !")
-        else:
-            function.clear_terminal()
-            have_account = bool(int(input("Avez-vous un compte ?\n0 = Non\n1 = Oui\n")))
-
-
 def interaction_with_user(username):
+    """
+    Fonction qui permet de lire,contestée et écrire un paragraphe
+    :return (bool): Renvoie faux lorsque l'utilisateur se deconnecte
+    """
     function.clear_terminal()
     print("Bonjour {} ! \n".format(username))
     
@@ -91,9 +48,61 @@ def interaction_with_user(username):
                 i += 1
             if actions_lire == 2:
                 i -= 1  
-        if actions_lire == 4:
-            interaction_with_user(username)
-interaction_with_user(username)
+            if actions_lire == 4:
+                interaction_with_user(username)
+    if actions == 4 :
+        return False
+# Connexion utilisateur 
+CRUD.create_chapter("Chap 1")
+CRUD.create_paragraph(1,1,"Hello !")
+have_account = bool(int(input("Avez-vous un compte ?\n0 = Non\n1 = Oui\n")))
+connected = False
+count = 0
+while not connected:
+    if have_account :
+        username = input("Entrez votre nom utilisateur :")
+        connected = CRUD.connexion(username,input("Entrez votre mot de passe :"))
+        if connected :
+            connected = interaction_with_user(username)
+            count = 0
+            have_account = bool(int(input("Avez-vous un compte ?\n0 = Non\n1 = Oui\n")))
+        else :
+            function.clear_terminal()
+            print("Utilisateur ou mot de passe invalide")
+            count += 1
+    
+    else:
+        username = input("Entrez un nom utilisateur :")
+        if CRUD.is_in_base(username) :
+            function.clear_terminal()
+            print("Le nom utilisateur {} est deja pris !".format(username))
+        else:
+            CRUD.create_user(username, input("Entrez votre mot de passe :"))
+            connected = interaction_with_user(username)
+            count = 0
+            have_account = bool(int(input("Avez-vous un compte ?\n0 = Non\n1 = Oui\n")))
+
+    if count > 5 and not connected : 
+        function.clear_terminal()   
+        forgot_pwd = bool(int(input("Avez-vous un oubliez votre mot de passe ?\n0 = Non\n1 = Oui\n")))
+        if forgot_pwd :
+            function.clear_terminal()
+            username = input("Entrez votre nom utilisateur :")
+            id=CRUD.find_user_id(username)
+            
+            if id is not None :
+                function.clear_terminal()
+                CRUD.change_pw(id[0],input("Entrez votre mot de passe :"))
+            else:
+                function.clear_terminal()
+                print("Erreur !")
+        else:
+            function.clear_terminal()
+            have_account = bool(int(input("Avez-vous un compte ?\n0 = Non\n1 = Oui\n")))
+
+
+
+
 """
 # afficher_dernier_paragraphe
 # curseur.lastrowid
