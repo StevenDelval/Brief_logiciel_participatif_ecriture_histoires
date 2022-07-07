@@ -176,7 +176,7 @@ def change_pw(id, password):
 def update_summary(ChapterID, Summary):  #changer le résumé 
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("UPDATE Chapter SET Summary  = ? WHERE ChapterID = ?",(ChapterID, Summary,))
+    curseur.execute("UPDATE Chapter SET Summary  = ? WHERE ChapterID = ?",(Summary,ChapterID ))
     connexion.commit()
     connexion.close()
 
