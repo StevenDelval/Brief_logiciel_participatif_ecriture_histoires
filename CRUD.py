@@ -1,11 +1,22 @@
 import sqlite3 
+import hashlib
+
 from datetime import datetime
 
-import function
+def crypt(password):
+    """
+    Fonction qui crypte un mot de passe
+    :param password (str): mot de passe
+    :return (str) le hash du mot de passe
+    """
+    hash_pwd = hashlib.new('sha256')
+    hash_pwd.update(password.encode())
+    hash_pwd = hash_pwd.hexdigest()
+    return hash_pwd
 
 #### Create ####
 def create_user(username, password):
-    password = function.crypt(password)
+    password = crypt(password)
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("INSERT INTO User VALUES (?,?,?);", (None,username, password))
@@ -91,7 +102,7 @@ def find_user_id(Username):
     return curseur.fetchone()
 
 def connexion(username,pw):
-    pw = function.crypt(pw)
+    pw = crypt(pw)
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("SELECT Username FROM User WHERE Username= ? and Password = ?",(username,pw))
@@ -148,7 +159,7 @@ def find_id_last_paragraph_():
 #### Update ####
 
 def change_pw(id, password):
-    password = function.crypt(password)
+    password = crypt(password)
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("UPDATE User SET Password = ? WHERE UserId = ?", (password, id))
