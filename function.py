@@ -1,5 +1,5 @@
 import os
-
+import CRUD
 
 def clear_terminal():
     """
@@ -49,3 +49,19 @@ def find_index_chapter(Chapter,story):
         if paragraph[0] == Chapter:
             return n
         n +=1
+
+
+def print_paragraph_contest(contest,paragraph):
+    print("""L'utilisateur {0} conteste le paragraphe suivant:\n
+
+        Chapitre {2}: (Résumé)\n
+        {6}
+        ________
+        \n
+        Posté par : {3} | {4} \n
+        \n
+        {5}
+
+        Voici son commentaire :
+        {1}
+        """.format(contest[0],contest[1],paragraph[0],paragraph[1],paragraph[2],paragraph[3],paragraph[4]))

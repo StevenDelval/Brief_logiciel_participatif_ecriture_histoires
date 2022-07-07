@@ -80,9 +80,34 @@ def start_challenge(UserId,ParagraphID,commentaire):
     connexion.commit()
     connexion.close()
 
+def liste_votant():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute('''CREATE TABLE Vote
+               (
+                    UserID INTEGER,
+                    FOREIGN KEY(UserID)
+                        REFERENCES User(UserID)
+                )
+    ''')
+    connexion.commit()
+    connexion.close()
 
-
+def vote_utilisateur(userID):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("INSERT INTO Vote VALUES (?)",(userID,))
+    connexion.commit()
+    connexion.close()
 #### Read   ####
+def a_voter(userID):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT UserID FROM Vote WHERE UserID=?",(userID,))
+    if len(curseur.fetchall()) == 0:
+        return False
+    else :
+        return True
 
 def see_users():
     connexion = sqlite3.connect("bdd.db")
@@ -184,6 +209,25 @@ def challenge_is_in_progress():
         return True
     else:
         return False
+
+def read_challenge():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT  Username, Challenge.text FROM Challenge JOIN User ON User.UserID=Challenge.UserID")
+    challenge = curseur.fetchone()
+    return challenge
+
+def find_user(UserID):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT Username FROM User WHERE UserID= ?",(UserID,))
+    return curseur.fetchone()
+def nombre_vote():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT  Vote FROM Challenge")
+    vote = curseur.fetchone()
+    return vote
 #### Update ####
 
 def change_pw(id, password):
@@ -235,7 +279,7 @@ def update_caracter(CaracterID,FirstName=None,LastName=None,Resume=None):
     connexion.commit()
     connexion.close()
 
-def update_challenge(ParagraphID,Vote=None):
+def update_vote(vote):
     """
     function update challenge
     :parametre ParagraphID,Vote=None
@@ -243,7 +287,7 @@ def update_challenge(ParagraphID,Vote=None):
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("UPDATE Challenge SET Vote= ? WHERE ParagraphID = ?", (Vote, ParagraphID))
+    curseur.execute("UPDATE Challenge SET Vote= ? ", (vote,))
    
     connexion.commit()
     connexion.close()
@@ -285,4 +329,16 @@ def delete_paragraph(ParagraphID):
     connexion.commit()
     connexion.close()
 
+def delete_challenge():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("DELETE FROM Challenge")
+    connexion.commit()
+    connexion.close()
 
+def fin_vote():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("DROP TABLE Vote")
+    connexion.commit()
+    connexion.close()

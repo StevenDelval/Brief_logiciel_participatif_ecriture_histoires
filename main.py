@@ -1,3 +1,4 @@
+from time import sleep
 import function
 import CRUD
 
@@ -10,17 +11,19 @@ def interaction_with_user(username):
     :return (bool): Renvoie faux lorsque l'utilisateur se deconnecte
     """
     function.clear_terminal()
+    dernier_paragraph=CRUD.afficher_dernier_paragraph()
     print("Bonjour {} ! \n".format(username))
     conteste = CRUD.challenge_is_in_progress()
     if conteste:
-        print("Challenge en cour!")
-        action_connection = "Que voulez vous faire ?\n  \n 1 : Lire l'histoire 2 : Contester le dernier message 3 : Écrire la suite  4 : Se Déconnecter   \n "
-    else :
+        paragraph_contest = CRUD.read_challenge()
+        function.print_paragraph_contest(paragraph_contest,dernier_paragraph)
         action_connection = "Que voulez vous faire ?\n  \n 1 : Lire l'histoire 2 : Voter  4 : Se Déconnecter   \n "
+    else :
+        action_connection = "Que voulez vous faire ?\n  \n 1 : Lire l'histoire 2 : Contester le dernier message 3 : Écrire la suite  4 : Se Déconnecter   \n "
+        function.print_last_paragraph(dernier_paragraph)
 
 
-    dernier_paragraph=CRUD.afficher_dernier_paragraph()
-    function.print_last_paragraph(dernier_paragraph)
+    
 
     actions = int(input(action_connection))
     if actions == 1:
@@ -71,15 +74,34 @@ def interaction_with_user(username):
             function.print_last_paragraph(dernier_paragraph)
             contester = bool(int(input("Voulez-vous contester le dernier paragraphe ?\n0 = Non\n1 = Oui\n")))
             if contester :
-                commentaire = input("Entrez un commentaire")
-                CRUD.start_challenge(CRUD.find_user_id(username),CRUD.find_id_last_chapter(),commentaire)
+                commentaire = input("Entrez un commentaire :")
+                CRUD.start_challenge(CRUD.find_user_id(username)[0],CRUD.find_id_last_paragraph()[0],commentaire)
+                CRUD.liste_votant()
+                CRUD.vote_utilisateur(CRUD.find_user_id(username)[0])
                 interaction_with_user(username)
             else :
                 interaction_with_user(username)
         else :
-            pass
+            if not CRUD.a_voter(CRUD.find_user_id(username)[0]):
+                vote_user = bool(int(input("Voulez-vous voter pour supprimer le paragraphe\n0 = Non\n1 = Oui\n")))
+                if vote_user :
+                    resultat = CRUD.nombre_vote()[0]
+                    resultat +=1
+                    CRUD.update_vote(resultat)
+                    CRUD.vote_utilisateur(CRUD.find_user_id(username)[0])
+                    interaction_with_user(username)
+                else:
+                    resultat = CRUD.nombre_vote()[0]
+                    resultat -=1
+                    CRUD.update_vote(resultat)
+                    CRUD.vote_utilisateur(CRUD.find_user_id(username)[0])
+                    interaction_with_user(username)
+            else :
+                print("Vous avez deja voter")
+                sleep(10)
+                interaction_with_user(username)
     if actions == 3 and not conteste:
-        pass   
+        print("Hello") 
     if actions == 4 :
         return False
 
