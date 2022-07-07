@@ -246,11 +246,13 @@ def update_comment(commentID,text,userID):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("UPDATE Comment SET  Text= ? WHERE CommentID = ?", (text, commentID))
-    curseur.execute("UPDATE Comment SET  Date=?" (str(datetime.now())))
-    curseur.execute("UPDATE Comment SET  UserID ? WHERE CommentID = ?", (userID, commentID))
+    curseur.execute("UPDATE Comment SET  Date = ?WHERE CommentID=?", (str(datetime.now()),commentID))
+    curseur.execute("UPDATE Comment SET UserID=? WHERE CommentID=?", (userID, commentID))
     connexion.commit()
     connexion.close()
 
+
+update_comment(1,"c'est tres bien ","yanis")
 #### Delete ####
 
 def delete_paragraph(ParagraphID):
