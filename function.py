@@ -65,3 +65,9 @@ def print_paragraph_contest(contest,paragraph):
         Voici son commentaire :
         {1}
         """.format(contest[0],contest[1],paragraph[0],paragraph[1],paragraph[2],paragraph[3],paragraph[4]))
+
+def print_comment(comment):
+    print("""
+    Posté par {0} | {1}
+    {2}
+    """.format(comment[0],comment[1],comment[2]))

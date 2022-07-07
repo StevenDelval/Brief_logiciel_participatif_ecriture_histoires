@@ -300,6 +300,11 @@ def read_chapter(chapterID):
     curseur.execute("SELECT Summary FROM Chapter WHERE ChapterID =?",(chapterID))
     return curseur.fetchone()
 
+def read_comment(chapterID):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT Username,date,text FROM Comment JOIN User ON User.UserID = Comment.UserID WHERE ChapterID = ?",(chapterID,))
+    return curseur.fetchall()
 #### Update ####
 
 def change_pw(id, password):

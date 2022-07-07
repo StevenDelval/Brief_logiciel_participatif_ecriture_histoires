@@ -28,7 +28,7 @@ def interaction_with_user(username):
         date_fin = date_debut  + timedelta(seconds=30)
         if date_now > date_fin:
             conteste = False
-            if CRUD.nombre_vote()[0] > 0:
+            if CRUD.nombre_vote()[0] > 1:
                 CRUD.delete_paragraph(CRUD.find_id_last_paragraph()[0])
             CRUD.delete_challenge()
             CRUD.fin_vote()
@@ -64,11 +64,15 @@ def interaction_with_user(username):
                 5 : Lire les commentaires d'un chapitre  6 : Écrire un commentaire sur un chapitre\n
                 7 : Modifez resumer d'un chapitre
                 """))
+            
+            
             if actions_lire == 1:
                 if i != len(histoire):
                     i += 1
                 
                 function.print_paragraph(i,histoire)
+            
+            
             if actions_lire == 2:
                 if i > 0:
                     i -= 1
@@ -79,8 +83,27 @@ def interaction_with_user(username):
                 chapitre = int(input("Entrez le numero du chapitre choisie:"))
                 i = function.find_index_chapter(chapitre,histoire)
                 function.print_paragraph(i,histoire)
+
+
             if actions_lire == 4:
                 interaction_with_user(username)
+
+            if actions_lire == 5:
+                function.clear_terminal()
+                chapitre_com = int(input("Dans quelle chapitre voulez vous lire les commentaires ? "))
+                comments = CRUD.read_comment(chapitre_com)
+                if len(com) != 0:
+                    for com in comments:
+                        function.print_comment(com) 
+                else:
+                    print("Il n'y a pas de commentaire")
+                input("Appuyer sur une touche lorsque vous avez fini.")
+
+
+            if actions_lire == 6:
+                chapitre_com = int(input("Dans quelle chapitre voulez vous ecrire un commentaire ? "))
+                commentaire_chap= input("Votre commentaire :")
+                CRUD.create_comment(commentaire_chap,chapitre_com,CRUD.find_user_id(username)[0])
             
             
             if actions_lire == 7:
@@ -89,6 +112,7 @@ def interaction_with_user(username):
                 resumer = input("Entrez le nouveau resumer :")
                 CRUD.update_summary(chapitreid, resumer)
                 histoire=CRUD.afficher_histoire()
+
     if actions == 2 :
         #############################################
         # 2 : Contester le dernier message Voter    #
@@ -106,6 +130,8 @@ def interaction_with_user(username):
                 interaction_with_user(username)
             else :
                 interaction_with_user(username)
+
+
         else :
             if not CRUD.a_voter(CRUD.find_user_id(username)[0]):
                 vote_user = bool(int(input("Voulez-vous voter pour supprimer le paragraphe\n0 = Non\n1 = Oui\n")))
@@ -125,6 +151,8 @@ def interaction_with_user(username):
                 print("Vous avez deja voter")
                 sleep(10)
                 interaction_with_user(username)
+
+
     if actions == 3 and not conteste:
         ##########################
         # 3 : Écrire la suite    #
