@@ -199,7 +199,7 @@ def find_id_last_chapter():
     curseur = connexion.cursor()
     curseur.execute("SELECT ChapterID FROM Chapter ORDER BY ChapterID DESC LIMIT 1")
     last_chapter = curseur.fetchone()
-    return last_chapter[0]
+    return last_chapter
 
 def challenge_is_in_progress():
     connexion = sqlite3.connect("bdd.db")
@@ -231,13 +231,13 @@ def nombre_vote():
 
 def read_chapter(chapterID):
     """
-    fonction afficher le sommaire de la chapiterid
+    fonction afficher le sommaire de la chapiter
     :parametre chapiterID
     :return summary
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT Summary FROM Chapter WHERE ChapterID =?",(chapterID))
+    curseur.execute("SELECT Summary FROM Chapter WHERE ChapterID =?",(chapterID,))
     return curseur.fetchone()
 
 def read_personnage(chapterID):
@@ -248,8 +248,32 @@ def read_personnage(chapterID):
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT Caracter.FirstName,Caracter.LastName, FROM IsInChapter,JOIN Caracter ON Caracter.CaracterID=IsInChapter.IsInChapiter.CaracterID WHERE ChapterID =?",(chapterID))
+    curseur.execute("""SELECT Caracter.FirstName,Caracter.LastName
+    FROM  Caracter
+    JOIN Caracter ON Caracter.CaracterID=IsInChapiter.CaracterID 
+    WHERE ChapterID =?
+    """,(chapterID,))
     return curseur.fetchall()
+
+def read_comment(chapterID):
+    """
+    fonction afficher le commentaire du chapter
+    :parametre chapterID
+    :return comment
+    """
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute(""" SELECT Comment.text FORM Comment,WHERE ChapterID=""",(chapterID,))
+
+def read_date_comment(chapterID):
+    """
+    fonction afficher la date du commentaire
+    :parametre chapterID
+    :return date
+    """
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute(""" SELECT Comment.date FORM Comment,WHERE ChapterID=""",(chapterID,))
 
 
 #### Update ####
