@@ -72,7 +72,12 @@ def create_isinchapter(caraterID,chapterID):
     connexion.commit()
     connexion.close()
 
-
+def start_challenge(UserId,ParagraphID,commentaire):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("INSERT INTO Challenge VALUES (?,?,?,?)",(UserId,ParagraphID,commentaire,0))
+    connexion.commit()
+    connexion.close()
 
 
 
