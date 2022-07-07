@@ -32,7 +32,7 @@ def interaction_with_user(username):
                 CRUD.delete_paragraph(CRUD.find_id_last_paragraph()[0])
             CRUD.delete_challenge()
             CRUD.fin_vote()
-            
+
     dernier_paragraph=CRUD.afficher_dernier_paragraph()
     if conteste:
         paragraph_contest = CRUD.read_challenge()
@@ -47,7 +47,9 @@ def interaction_with_user(username):
 
     actions = int(input(action_connection))
     if actions == 1:
-        
+        ###########################
+        #  1 : Lire l'histoire    #
+        ###########################
         function.clear_terminal()
         histoire=CRUD.afficher_histoire()
         i = 0
@@ -88,6 +90,9 @@ def interaction_with_user(username):
                 CRUD.update_summary(chapitreid, resumer)
                 histoire=CRUD.afficher_histoire()
     if actions == 2 :
+        #############################################
+        # 2 : Contester le dernier message Voter    #
+        #############################################
         if not conteste:
             function.clear_terminal()
             dernier_paragraph=CRUD.afficher_dernier_paragraph()
@@ -121,6 +126,9 @@ def interaction_with_user(username):
                 sleep(10)
                 interaction_with_user(username)
     if actions == 3 and not conteste:
+        ##########################
+        # 3 : Écrire la suite    #
+        ##########################
         print("Hello") 
     if actions == 4 :
         return False
