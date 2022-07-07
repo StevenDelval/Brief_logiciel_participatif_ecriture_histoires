@@ -75,7 +75,7 @@ def create_isinchapter(caraterID,chapterID):
 def start_challenge(UserId,ParagraphID,commentaire):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("INSERT INTO Challenge VALUES (?,?,?,?)",(UserId,ParagraphID,commentaire,0))
+    curseur.execute("INSERT INTO Challenge VALUES (?,?,?,?)",(UserId,ParagraphID,commentaire,1))
     connexion.commit()
     connexion.close()
 
