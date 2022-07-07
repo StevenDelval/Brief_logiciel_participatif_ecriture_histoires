@@ -81,7 +81,9 @@ def interaction_with_user(username):
         """.format(dernier_paragraph[0],dernier_paragraph[1],dernier_paragraph[2],dernier_paragraph[3],dernier_paragraph[4]))
         contester = bool(int(input("Voulez-vous contester le dernier paragraphe ?\n0 = Non\n1 = Oui\n")))
         if contester :
-            pass
+            commentaire = input("Entrez un commentaire")
+            CRUD.start_challenge(CRUD.find_user_id(username),CRUD.find_id_last_chapter(),commentaire)
+            interaction_with_user(username)
         else :
             interaction_with_user(username)
         
