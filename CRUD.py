@@ -53,7 +53,7 @@ def create_comment(text,ChapterID,UserID):
     connexion.commit()
     connexion.close()
 
-def create_caracter(first_name,last_name,resume):
+def create_caracter(first_name, last_name, description):
     """
     fonction create caracter
     :parametre first_name last_name,resume
@@ -61,18 +61,23 @@ def create_caracter(first_name,last_name,resume):
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("INSERT INTO Caracter VALUES (?,?,?,?);", (None,first_name,last_name,resume ))
+    curseur.execute("INSERT INTO Caracter VALUES (?,?,?,?);", (None, first_name, last_name, description ))
     connexion.commit()
     connexion.close()
 
-def create_isinchapter(caraterID,chapterID):
+def create_isinchapter(caracterID,chapterID):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("INSERT INTO IsInChapter VALUES (?,?);", (caraterID,chapterID))
+    curseur.execute("INSERT INTO IsInChapter VALUES (?,?);", (caracterID,chapterID))
     connexion.commit()
     connexion.close()
 
-
+def start_challenge(UserId,ParagraphID,commentaire):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("INSERT INTO Challenge VALUES (?,?,?,?)",(UserId,ParagraphID,commentaire,1))
+    connexion.commit()
+    connexion.close()
 
 
 
@@ -94,6 +99,15 @@ def is_in_base(username):
         return True
     else:
         return False
+
+
+def isInChapter(CaracterID):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT CaracterID FROM Caracter JOIN IsInChapter ON Caracter.CaracterID = IsInChapter.CaracterID WHERE FirstName = ? ",(CaracterID,))
+    print(curseur.fetchall())
+    connexion.close()
+
 
 def find_user_id(Username):
     connexion = sqlite3.connect("bdd.db")
@@ -138,7 +152,7 @@ def read_caracter(caracterID):
 def afficher_dernier_paragraph():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT ChapterID, User.Username, date, text FROM Paragraph JOIN User ON User.UserID = Paragraph.UserID ORDER BY ParagraphID DESC LIMIT 1")
+    curseur.execute("SELECT Paragraph.ChapterID, User.Username, date, text,Summary FROM Paragraph JOIN User ON User.UserID = Paragraph.UserID JOIN Chapter ON Chapter.ChapterID = Paragraph.ChapterID  ORDER BY ParagraphID DESC LIMIT 1")
     last_paragraph = curseur.fetchone()
     return last_paragraph
 
@@ -148,13 +162,13 @@ def afficher_histoire():
     curseur.execute("SELECT Paragraph.ChapterID, Summary, text FROM Chapter JOIN Paragraph ON Chapter.ChapterID = Paragraph.ChapterID ORDER BY ParagraphID ")
     return curseur.fetchall()
 
-def find_id_last_paragraph_():
+def find_id_last_paragraph():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("SELECT ParagraphID FROM Paragraph ORDER BY ParagraphID DESC LIMIT 1")
     return curseur.fetchone()
 
-def find_id_last_chapter_():
+def find_id_last_chapter():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("SELECT ChapterID FROM Chapter ORDER BY ChapterID DESC LIMIT 1")
@@ -265,4 +279,5 @@ def delete_paragraph(ParagraphID):
 
 
 
-   
+
+
