@@ -329,6 +329,13 @@ def delete_paragraph(ParagraphID):
     connexion.commit()
     connexion.close()
 
+def delete_challenge():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("DELETE FROM Challenge")
+    connexion.commit()
+    connexion.close()
+
 def fin_vote():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
