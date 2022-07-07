@@ -6,16 +6,24 @@ from datetime import datetime
 def crypt(password):
     """
     Fonction qui crypte un mot de passe
-    :param password (str): mot de passe
-    :return (str) le hash du mot de passe
+    :param password: (str) mot de passe
+    :return: (str) le hash du mot de passe
     """
     hash_pwd = hashlib.new('sha256')
     hash_pwd.update(password.encode())
     hash_pwd = hash_pwd.hexdigest()
     return hash_pwd
 
-#### Create ####
-def create_user(username, password):
+####################################  CREATE  ############################################################### 
+####################################  CREATE  ############################################################### 
+
+def create_user(username, password):      # CREER UN UTILISATEUR 
+    """
+    Fonction qui crée un utilisateur et l'ajoute dans la table user 
+    :param username: (str) nom de l'utilisateur à ajouté dans la base de données 
+    :param password: (str) mot de passe
+    :return: None
+    """
     password = crypt(password)
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
@@ -24,8 +32,14 @@ def create_user(username, password):
     connexion.close()
 
 
-
-def create_paragraph (ChapterID, UserID, paragraph):
+def create_paragraph (ChapterID, UserID, paragraph):        # CREER UN PARAGRAPHE 
+    """
+    Fonction qui crée un paragraphe et l'ajoute dans la table Paragraph
+    :param ChapterID: (int) Numéro du chapitre
+    :param UserID:    (int) Numéro de l'utilisateur 
+    :param Paragraph: (str) Paragraphe
+    :return: None 
+    """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("INSERT INTO Paragraph VALUES (?,?,?,?,?);", (None, ChapterID, UserID, str(datetime.now()), paragraph))
@@ -33,20 +47,27 @@ def create_paragraph (ChapterID, UserID, paragraph):
     connexion.close()
 
 
-def create_chapter(Summary_TEXT):
+def create_chapter(Summary):               # CREER UN CHAPITRE 
+    """
+    Fonction qui crée un chapitre avec un résumé et l'ajoute dans la table Chapter
+    :param Chapter: (str) chapitre 
+    :param Summary_TEXT: (str) résumé du chapitre 
+    :return: None
+    """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("INSERT INTO Chapter VALUES (?,?);", (None, Summary_TEXT))
+    curseur.execute("INSERT INTO Chapter VALUES (?,?);", (None, Summary))
     connexion.commit()
     connexion.close()
 
-def create_comment(text,ChapterID,UserID):
+def create_comment(text,ChapterID,UserID):      # CREER UN COMMENTAIRE D'UN CHAPITRE 
     """
-    fonction create_comment
-    :parametre text,ChapterID,UserID
-    :return bdd.Comment
+    Fonction qui crée un commentaire et l'ajoute dans la table Comment  
+    :param text: (str) commentaire 
+    :param ChapterID: (str) numéro du chapitre
+    :param UserID: (str) numéro de l'utilisateur 
+    :return: None 
     """
-
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("""INSERT INTO Comment VALUES (?,?,?,?,?)""",(None,ChapterID,UserID,str(datetime.now()),text ) )
@@ -54,30 +75,44 @@ def create_comment(text,ChapterID,UserID):
     connexion.close()
 
 
-def create_caracter(first_name, last_name, resume):
+def create_caracter(FirstName, LastName, Resume):   # CREER UN PERSONNAGE 
     """
-    fonction create caracter
-    :parametre first_name last_name,resume
-    :return base de donnee bdd.db
+    Fonction qui créer un personnage et l'ajoute dans la table caracter
+    :param FirstName: (str) prénom du personnage 
+    :param LastName: (str) nom du personnage
+    :param Resume: (str) description du personnage
+    :return: None
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("INSERT INTO Caracter VALUES (?,?,?,?);", (None, first_name, last_name, resume ))
-    
+    curseur.execute("INSERT INTO Caracter VALUES (?,?,?,?);", (None, FirstName, LastName, Resume ))
     connexion.commit()
     connexion.close()
 
-def create_isinchapter(caracterID,chapterID):
+def create_isinchapter(caracterID,chapterID):  # AJOUT DE L'ID DU PERSO ET LE CHAPITRE OU IL APPARAIT DANS LA TABLE ISINCHAPTER
+    """
+    Fonction qui insere l'id d'un personnage et le chapitre correspondant dans la table IsInChapter
+    :param caracterID: (int) l'id du personnage 
+    :param chapterID: (int) chapitre où apparait le personnage
+    :return: None
+    """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("INSERT INTO IsInChapter VALUES (?,?);", (caracterID,chapterID))
     connexion.commit()
     connexion.close()
 
-def start_challenge(UserId,ParagraphID,commentaire):
+def start_challenge(UserId, ParagraphID, Text):  # DEMARRER UN VOTE 
+    """
+    Fonction qui crée la table du vote Challenge et créer l'instance de Vote 
+    :param UserId: (int) l'id de l'utilisateur  
+    :param ParagraphID: (int) l'id du paragraphe sur lequel les utilisateurs vont voter
+    :param Text: (str) texte qui justifie le début du vote 
+    :return: None
+    """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("INSERT INTO Challenge VALUES (?,?,?,?)",(UserId,ParagraphID,commentaire,1))
+    curseur.execute("INSERT INTO Challenge VALUES (?,?,?,?)",(UserId, ParagraphID, Text,1))
     connexion.commit()
     connexion.close()
 
@@ -100,11 +135,23 @@ def vote_utilisateur(userID):
     curseur.execute("INSERT INTO Vote VALUES (?)",(userID,))
     connexion.commit()
     connexion.close()
-#### Read   ####
-def a_voter(userID):
+
+
+
+####################################  READ  ############################################################### 
+####################################  READ  ############################################################### 
+
+
+def a_voter(UserID):
+    """
+    Fonction qui vérifie si l'utilisateur a voter, la requête renvoie toutes les entrées quand elle verra l'id de l'utilisateur
+    c'est un booléen si elle renvoie vrai, l'utilisateur a voter, si c'est faux, il n'a pas voter. 
+    :param UserId: (int) l'id de l'utilisateur  
+    :return: None
+    """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT UserID FROM Vote WHERE UserID=?",(userID,))
+    curseur.execute("SELECT UserID FROM Vote WHERE UserID=?",(UserID,))
     if len(curseur.fetchall()) == 0:
         return False
     else :
@@ -343,43 +390,3 @@ def fin_vote():
     curseur.execute("DROP TABLE Vote")
     connexion.commit()
     connexion.close()
-
-""" # CREATION DE COMPTE 
-Username = input(" Entrez un nom d'utilisateur:  ")
-Password = input ("Entrez votre mot de passe:  ")
-User = create_user(Username,Password)
-
-# CREATION DU CHAPITRE 
-Resume = input (" Entrez une brève description du chapitre:   ")
-create_chapter(Resume)
-
-# CREATION DUN PARAGRAPHE 
-paragraph = input (" Entrez un paragraphe:   ")
-create_paragraph (1, find_user_id(Username)[0], paragraph)
-
-#CREATION DUN PERSONNAGE 
-first_name = input (" le prénom du personnage est: ")
-last_name = input (" le nom du personnage est: ")
-resume = input (" décrivez le personnage:  ")
-
-create_caracter(first_name, last_name, resume)   
- """
-
-# ON APPELE UN PERSONNAGE 
-FirstName = input (" le prénom du personnage est: ")
-#LastName = input (" le nom du personnage est: ")
-#resume = input (" décrivez le personnage:  ")
-
-# un truc qui print l'id du personnage 
-print (find_caracterID(FirstName))
-
-#ajout dans la table is in chapter du PERSONNAGE 
-caracterID = input (" Entrez l'id du personnage:  ")
-chapterID = input (" Dans quel chapitre voulez-vous ajouter le perso? ")
-create_isinchapter(caracterID, chapterID)
-
-
-# RECHERCHER SI LE PERSONNAGE EST DANS TEL OU TEL CHAPITRE 
-FirstName = input ("Entrez le prénom du personnage que vous cherchez:  ")
-
-isInChapter(FirstName)
