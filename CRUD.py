@@ -248,9 +248,8 @@ def read_personnage(chapterID):
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("""SELECT Caracter.FirstName,Caracter.LastName
-    FROM  Caracter
-    JOIN Caracter ON Caracter.CaracterID=IsInChapiter.CaracterID 
+    curseur.execute("""SELECT Caracter.FirstName,Caracter.LastName FROM Caracter
+    JOIN IsInchapter ON Caracter.CaracterID=IsInChapiter.CaracterID 
     WHERE ChapterID =?
     """,(chapterID,))
     return curseur.fetchall()
