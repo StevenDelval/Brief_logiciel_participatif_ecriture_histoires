@@ -112,7 +112,10 @@ def start_challenge(UserId, ParagraphID, Text):  # DEMARRER UN VOTE
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("INSERT INTO Challenge VALUES (?,?,?,?)",(UserId, ParagraphID, Text,1))
+    now = datetime.now()
+    date_format_str = "%d/%m/%Y %H:%M:%S.%f"
+    date_now = now.strftime(date_format_str)
+    curseur.execute("INSERT INTO Challenge VALUES (?,?,?,?,?)",(UserId,ParagraphID,commentaire,1,date_now))
     connexion.commit()
     connexion.close()
 
@@ -135,11 +138,13 @@ def vote_utilisateur(userID):
     curseur.execute("INSERT INTO Vote VALUES (?)",(userID,))
     connexion.commit()
     connexion.close()
-
-
-
-####################################  READ  ############################################################### 
-####################################  READ  ############################################################### 
+#### Read   ####
+def temps_challenge():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT date FROM Challenge")
+    
+    return curseur.fetchone()
 
 
 def a_voter(UserID):
@@ -283,6 +288,18 @@ def nombre_vote():
     curseur.execute("SELECT  Vote FROM Challenge")
     vote = curseur.fetchone()
     return vote
+
+def read_chapter(chapterID):
+    """
+    fonction afficher le sommaire de la chapiterid
+    :parametre chapiterID
+    :return summary
+    """
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT Summary FROM Chapter WHERE ChapterID =?",(chapterID))
+    return curseur.fetchone()
+
 #### Update ####
 
 def change_pw(id, password):
@@ -381,6 +398,13 @@ def delete_paragraph(ParagraphID):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("DELETE FROM Paragraph WHERE ParagraphID = ?; " , (ParagraphID,))
+    connexion.commit()
+    connexion.close()
+
+def delete_challenge():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("DELETE FROM Challenge")
     connexion.commit()
     connexion.close()
 
