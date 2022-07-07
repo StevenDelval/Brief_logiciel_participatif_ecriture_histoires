@@ -240,6 +240,18 @@ def read_chapter(chapterID):
     curseur.execute("SELECT Summary FROM Chapter WHERE ChapterID =?",(chapterID))
     return curseur.fetchone()
 
+def read_personnage(chapterID):
+    """
+    fonction afficher les personnages d'un chapitre
+    :parametre chapterID
+    :return liste des personnages
+    """
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT Caracter.FirstName,Caracter.LastName, FROM IsInChapter,JOIN Caracter ON Caracter.CaracterID=IsInChapter.IsInChapiter.CaracterID WHERE ChapterID =?",(chapterID))
+    return curseur.fetchall()
+
+
 #### Update ####
 
 def change_pw(id, password):
