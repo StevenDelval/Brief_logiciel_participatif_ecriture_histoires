@@ -3,6 +3,7 @@ import CRUD
 
 
 function.clear_terminal()
+
 def interaction_with_user(username):
     """
     Fonction qui permet de lire,contestée et écrire un paragraphe
@@ -23,10 +24,8 @@ def interaction_with_user(username):
     """.format(dernier_paragraph[0],dernier_paragraph[1],dernier_paragraph[2],dernier_paragraph[3]))
 
     actions = int(input("""Que voulez vous faire ?\n  \n 
-    1 = Lire l'histoire \n 
-    2 = Contester le dernier message \n 
-    3 = Écrire la suite  \n 
-    4 = Se Déconnecter   \n 
+    1 : Lire l'histoire 2 : Contester le dernier message 
+    3 : Écrire la suite  4 : Se Déconnecter   \n 
     """))
     if actions == 1:
         
@@ -34,22 +33,42 @@ def interaction_with_user(username):
         histoire=CRUD.afficher_histoire()
         i = 0
         actions_lire =0
-        print(histoire)
-        while actions_lire !=1 or actions_lire !=2 or actions_lire !=3:
+        
+        while actions_lire !=4:
+            function.print_paragraph(i,histoire)
             actions_lire = int(input("""Que voulez vous faire ?\n  \n 
-                1 = Aller à la page suivante \n 
-                2 = Aller à la page précédente  \n 
-                3 = Choisir un chapitre   \n 
-                4 = Retourner au menu précédent    \n
-                5 = Lire les commentaires du chapitre    \n 
-                6 = Écrire un commentaire sur le chapitre    \n 
+                1 : Lire paragraphe suivant 2 : Lire paragraphe précédent 
+                3 : Choisir un chapitre   \n 
+                4 : Retourner au menu précédent  
+                5 : Lire les commentaires du chapitre 6 : Écrire un commentaire sur le chapitre    \n
+                6 : Modifez resumer d'un chapitre
                 """))
             if actions_lire == 1:
-                i += 1
+                if i != len(histoire):
+                    i += 1
+                
+                function.print_paragraph(i,histoire)
             if actions_lire == 2:
-                i -= 1  
+                if i > 0:
+                    i -= 1
+                function.print_paragraph(i,histoire)
+                
+            if actions_lire == 3:
+                function.clear_terminal()
+                chapitre = int(input("Entrez le numero du chapitre choisie:"))
+                i = function.find_index_chapter(chapitre,histoire)
+                function.print_paragraph(i,histoire)
             if actions_lire == 4:
                 interaction_with_user(username)
+            
+            
+            if actions_lire == 6:
+                function.clear_terminal()
+                chapitreid = int(input("Entrez le numero du chapitre dont vous voulez modifier le resumer :"))
+                resumer = input("Entrez le nouveau resumer :")
+                CRUD.update_summary(chapitreid, resumer)
+                histoire=CRUD.afficher_histoire()
+
     if actions == 4 :
         return False
 
@@ -104,40 +123,4 @@ while not connected:
             function.clear_terminal()
             have_account = bool(int(input("Avez-vous un compte ?\n0 = Non\n1 = Oui\n")))
 
-
-
-
-"""
-# afficher_dernier_paragraphe
-# curseur.lastrowid
-
-
-
-actions = int(input("que voulez vous faire \n  \n 0 = ecrire un paragraphe? \n 1 = ecrire un commentaire? \n 2 = lancer un vote?  \n 3 = creer un nouveau chapitre?  \n 4 = voir un résumé de chapitre? \n 5 = voter?\n 6 = voir perso? \n 7= nouv chap? \n 8= delete chapter \n "))
-
-if actions == 0:
-    paragraph = input (" Rentrez votre contribution: ")
-    CRUD.create_paragraph(paragraph)
-
-elif actions == 1 :
-    commentaire = input (" Rentrez votre contribution: ")
-    CRUD.create_commentaire(commentaire)
-elif actions == 2:
-    CRUD.start_poll                                             # CRÉER FONCTION LANCER UN VOTE 
-elif actions ==3:
-    new_chapter = input (" Rentrez votre contribution: ")
-    CRUD.create_paragraph(new_chapter)
-elif actions == 4:
-    see_resume
-elif actions == 5 :
-    voter 
-elif actions ==6 :
-    voir_perso
-elif actions == 7 :
-    nouveau_chapitre
-elif actions ==8:
-    delete_chapter
-    
-
-"""
 

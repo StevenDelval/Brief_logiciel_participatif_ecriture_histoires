@@ -1,4 +1,3 @@
-from ipaddress import summarize_address_range
 import sqlite3 
 import hashlib
 
@@ -45,7 +44,7 @@ def create_comment(text,ChapterID,UserID):
     """
     fonction create_comment
     :parametre text,ChapterID,UserID
-    :return Comment
+    :return bdd.Comment
     """
 
     connexion = sqlite3.connect("bdd.db")
@@ -58,7 +57,7 @@ def create_caracter(first_name,last_name,resume):
     """
     fonction create caracter
     :parametre first_name last_name,resume
-    :return Caracter
+    :return base de donnee bdd.db
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
@@ -67,28 +66,13 @@ def create_caracter(first_name,last_name,resume):
     connexion.close()
 
 def create_isinchapter(caraterID,chapterID):
-    """
-    fonction create isinchapter
-    :parametre caraterID,chapterID
-    :return IsInChapiter
-    """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("INSERT INTO IsInChapter VALUES (?,?);", (caraterID,chapterID))
     connexion.commit()
     connexion.close()
 
-def Challenge_update_(userID,ParagraphID,Test,Vote):
-    """
-    fonction create chanllenge
-    :parametre userID,ParagraphID,Test,Vote
-    :return Chanllenge
-    """
-    connexion = sqlite3.connect("bdd.db")
-    curseur = connexion.cursor()
-    curseur.execute("INSERT INTO IsInChapter VALUES (?,?,?,?);", (userID,ParagraphID,Test,Vote))
-    connexion.commit()
-    connexion.close()
+
 
 
 
@@ -133,7 +117,6 @@ def read_sommary(ChapterID):
     fonction afficher sommaire 
     : parametre numero de chapitre ID
     : return sommaire
-
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
@@ -145,7 +128,6 @@ def read_caracter(caracterID):
     fonction afficher  carater dans chapiter
     : parametre caracterID
     : return chapterID
-
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
@@ -156,7 +138,7 @@ def read_caracter(caracterID):
 def afficher_dernier_paragraph():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT chapterID,User.Username, date, text FROM Paragraph JOIN User ON User.UserID = Paragraph.UserID ORDER BY ParagraphID DESC LIMIT 1")
+    curseur.execute("SELECT ChapterID, User.Username, date, text FROM Paragraph JOIN User ON User.UserID = Paragraph.UserID ORDER BY ParagraphID DESC LIMIT 1")
     last_paragraph = curseur.fetchone()
     return last_paragraph
 
@@ -172,6 +154,13 @@ def find_id_last_paragraph_():
     curseur.execute("SELECT ParagraphID FROM Paragraph ORDER BY ParagraphID DESC LIMIT 1")
     return curseur.fetchone()
 
+def find_id_last_chapter_():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT ChapterID FROM Chapter ORDER BY ChapterID DESC LIMIT 1")
+    last_chapter = curseur.fetchone()
+    return last_chapter[0]
+
 #### Update ####
 
 def change_pw(id, password):
@@ -182,6 +171,12 @@ def change_pw(id, password):
     connexion.commit()
     connexion.close()
 
+def update_summary(ChapterID, Summary):  #changer le résumé 
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("UPDATE Chapter SET Summary  = ? WHERE ChapterID = ?",(Summary,ChapterID ))
+    connexion.commit()
+    connexion.close()
 def update_user(UserID,Username=None,password=None,):
     """
     function update chapter
@@ -266,9 +261,6 @@ def update_paragraph(commentID,text,userID):
     curseur.execute("UPDATE Comment SET  Text= ? WHERE CommentID = ?", (text, commentID))
     curseur.execute("UPDATE Comment SET  Date=?" (str(datetime.now())))
     curseur.execute("UPDATE Comment SET  UserID ? WHERE CommentID = ?", (userID, commentID))
-    connexion.commit()
-    connexion.close()
-
 #### Delete ####
 
 def delete_paragraph(ParagraphID):
@@ -277,8 +269,6 @@ def delete_paragraph(ParagraphID):
     curseur.execute("DELETE FROM Paragraph WHERE ParagraphID = ?; " , (ParagraphID,))
     connexion.commit()
     connexion.close()
-
-
 
 
 
