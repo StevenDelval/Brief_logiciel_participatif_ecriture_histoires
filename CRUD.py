@@ -63,6 +63,7 @@ def create_caracter(first_name, last_name, resume):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("INSERT INTO Caracter VALUES (?,?,?,?);", (None, first_name, last_name, resume ))
+    
     connexion.commit()
     connexion.close()
 
@@ -222,6 +223,13 @@ def find_user(UserID):
     curseur = connexion.cursor()
     curseur.execute("SELECT Username FROM User WHERE UserID= ?",(UserID,))
     return curseur.fetchone()
+
+def find_caracterID(FirstName):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT caracterID FROM caracter WHERE FirstName = ?",(FirstName,))
+    return curseur.fetchone()
+
 def nombre_vote():
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
@@ -335,3 +343,43 @@ def fin_vote():
     curseur.execute("DROP TABLE Vote")
     connexion.commit()
     connexion.close()
+
+""" # CREATION DE COMPTE 
+Username = input(" Entrez un nom d'utilisateur:  ")
+Password = input ("Entrez votre mot de passe:  ")
+User = create_user(Username,Password)
+
+# CREATION DU CHAPITRE 
+Resume = input (" Entrez une brève description du chapitre:   ")
+create_chapter(Resume)
+
+# CREATION DUN PARAGRAPHE 
+paragraph = input (" Entrez un paragraphe:   ")
+create_paragraph (1, find_user_id(Username)[0], paragraph)
+
+#CREATION DUN PERSONNAGE 
+first_name = input (" le prénom du personnage est: ")
+last_name = input (" le nom du personnage est: ")
+resume = input (" décrivez le personnage:  ")
+
+create_caracter(first_name, last_name, resume)   
+ """
+
+# ON APPELE UN PERSONNAGE 
+FirstName = input (" le prénom du personnage est: ")
+#LastName = input (" le nom du personnage est: ")
+#resume = input (" décrivez le personnage:  ")
+
+# un truc qui print l'id du personnage 
+print (find_caracterID(FirstName))
+
+#ajout dans la table is in chapter du PERSONNAGE 
+caracterID = input (" Entrez l'id du personnage:  ")
+chapterID = input (" Dans quel chapitre voulez-vous ajouter le perso? ")
+create_isinchapter(caracterID, chapterID)
+
+
+# RECHERCHER SI LE PERSONNAGE EST DANS TEL OU TEL CHAPITRE 
+FirstName = input ("Entrez le prénom du personnage que vous cherchez:  ")
+
+isInChapter(FirstName)
