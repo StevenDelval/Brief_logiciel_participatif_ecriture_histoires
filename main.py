@@ -52,9 +52,13 @@ def interaction_with_user(username):
                 interaction_with_user(username)
     if actions == 4 :
         return False
+
+
+
 # Connexion utilisateur 
-CRUD.create_chapter("Chap 1")
-CRUD.create_paragraph(1,1,"Hello !")
+
+
+
 have_account = bool(int(input("Avez-vous un compte ?\n0 = Non\n1 = Oui\n")))
 connected = False
 count = 0
