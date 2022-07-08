@@ -148,8 +148,8 @@ def interaction_with_user(username):
                     CRUD.vote_utilisateur(CRUD.find_user_id(username)[0])
                     interaction_with_user(username)
             else :
-                print("Vous avez deja voter")
-                sleep(10)
+                print("Vous avez deja voter\n Retour au menu Principal dans 5sec")
+                sleep(5)
                 interaction_with_user(username)
 
 
