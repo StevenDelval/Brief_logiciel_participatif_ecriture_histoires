@@ -14,8 +14,8 @@ def crypt(password):
     hash_pwd = hash_pwd.hexdigest()
     return hash_pwd
 
-####################################  CREATE  ############################################################### 
-####################################  CREATE  ############################################################### 
+##############################################################  CREATE  ############################################################### 
+##############################################################  CREATE  ############################################################### 
 
 def create_user(username, password):      # CREER UN UTILISATEUR 
     """
@@ -104,7 +104,7 @@ def create_isinchapter(caracterID,chapterID):  # AJOUT DE L'ID DU PERSO ET LE CH
 
 def start_challenge(UserId, ParagraphID, Text):  # DEMARRER UN VOTE 
     """
-    Fonction qui crée la table du vote Challenge et créer l'instance de Vote 
+    Fonction qui crée la table du vote Challenge et crée l'instance de Vote 
     :param UserId: (int) l'id de l'utilisateur  
     :param ParagraphID: (int) l'id du paragraphe sur lequel les utilisateurs vont voter
     :param Text: (str) texte qui justifie le début du vote 
@@ -119,7 +119,12 @@ def start_challenge(UserId, ParagraphID, Text):  # DEMARRER UN VOTE
     connexion.commit()
     connexion.close()
 
-def liste_votant():
+def liste_votant():                          # CREER ET IMPLEMENTER LA TABLE VOTE 
+    """
+    Fonction qui crée la table Vote et l'implémente avec l'UserID qui a voter.
+    :param UserId: (int) l'id de l'utilisateur  
+    :return: None
+    """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute('''CREATE TABLE Vote
@@ -133,17 +138,29 @@ def liste_votant():
     connexion.close()
 
 def vote_utilisateur(userID):
+    """
+    Fonction qui crée la table Vote et l'implémente avec l'UserID qui a voter.
+    :param UserId: (int) l'id de l'utilisateur  
+    :return: None
+    """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("INSERT INTO Vote VALUES (?)",(userID,))
     connexion.commit()
-    connexion.close()
-#### Read   ####
+    connexion.close()   
+
+##############################################################  READ  ############################################################### 
+##############################################################  READ  ############################################################### 
+
 def temps_challenge():
+    """
+    Fonction qui affiche la date du début du challenge.
+    :param UserId: (int) l'id de l'utilisateur  
+    :return: None
+    """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("SELECT date FROM Challenge")
-    
     return curseur.fetchone()
 
 
@@ -163,6 +180,11 @@ def a_voter(UserID):
         return True
 
 def see_users():
+    """
+    Fonction qui affiche .
+    :param UserId: (int) l'id de l'utilisateur  
+    :return: None
+    """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("SELECT Username,Password FROM User")
@@ -216,7 +238,7 @@ def read_sommary(ChapterID):
     curseur.execute("SELECT  Summary FROM Chapiter WHERE ChapterID= ?",(ChapterID,))
     return curseur.fetchone()
 
-def read_caracter(chapterID):
+def read_caracter(caracterID):
     """
     fonction afficher  carater dans chapiter
     : parametre caracterID
@@ -224,7 +246,7 @@ def read_caracter(chapterID):
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT  FirstName,LastName FROM Caracter JOIN IsInChapter ON IsInChapter.CaracterID=Caracter.CaracterID WHERE ChapterID = ? ",(chapterID,))
+    curseur.execute("SELECT  ChapterID FROM IsInChapter WHERE CaracterID= ?",(caracterID,))
     return curseur.fetchall()
 
 
