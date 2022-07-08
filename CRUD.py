@@ -115,7 +115,7 @@ def start_challenge(UserId, ParagraphID, Text):  # DEMARRER UN VOTE
     now = datetime.now()
     date_format_str = "%d/%m/%Y %H:%M:%S.%f"
     date_now = now.strftime(date_format_str)
-    curseur.execute("INSERT INTO Challenge VALUES (?,?,?,?,?)",(UserId,ParagraphID,commentaire,1,date_now))
+    curseur.execute("INSERT INTO Challenge VALUES (?,?,?,?,?)",(UserId,ParagraphID,Text,1,date_now))
     connexion.commit()
     connexion.close()
 
