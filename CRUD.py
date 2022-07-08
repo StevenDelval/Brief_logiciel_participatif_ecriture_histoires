@@ -216,7 +216,7 @@ def read_sommary(ChapterID):
     curseur.execute("SELECT  Summary FROM Chapiter WHERE ChapterID= ?",(ChapterID,))
     return curseur.fetchone()
 
-def read_caracter(caracterID):
+def read_caracter(chapterID):
     """
     fonction afficher  carater dans chapiter
     : parametre caracterID
@@ -224,7 +224,7 @@ def read_caracter(caracterID):
     """
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
-    curseur.execute("SELECT  ChapterID FROM IsInChapter WHERE CaracterID= ?",(caracterID,))
+    curseur.execute("SELECT  FirstName,LastName FROM Caracter JOIN IsInChapter ON IsInChapter.CaracterID=Caracter.CaracterID WHERE ChapterID = ? ",(chapterID,))
     return curseur.fetchall()
 
 
