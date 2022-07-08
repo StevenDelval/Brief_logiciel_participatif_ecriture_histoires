@@ -30,7 +30,19 @@ def create_user(username, password):      # CREER UN UTILISATEUR
     curseur.execute("INSERT INTO User VALUES (?,?,?);", (None,username, password))
     connexion.commit()
     connexion.close()
-
+def create_user_welcom(password=0):      # CREER UN UTILISATEUR 
+    """
+    Fonction qui crée un utilisateur et l'ajoute dans la table user 
+    :param username: (str) nom de l'utilisateur à ajouté dans la base de données 
+    :param password: (str) mot de passe
+    :return: None
+    """
+    password = crypt(password)
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("INSERT INTO User VALUES (0,?,?);", ("welcom", "565"))
+    connexion.commit()
+    connexion.close()
 
 def create_paragraph (ChapterID, UserID, paragraph):        # CREER UN PARAGRAPHE 
     """
