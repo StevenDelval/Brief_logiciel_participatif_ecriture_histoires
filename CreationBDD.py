@@ -1,5 +1,5 @@
 import sqlite3
-
+from datetime import datetime
 connexion = sqlite3.connect('bdd.db')
 curseur = connexion.cursor()
 
@@ -10,6 +10,7 @@ curseur.execute('''CREATE TABLE User
                     Password TEXT
                 )
 ''')
+curseur.execute("INSERT INTO User VALUES (0,?,?);", ("welcom", "565"))
 
 curseur.execute('''CREATE TABLE Chapter
                (
@@ -81,6 +82,8 @@ curseur.execute('''CREATE TABLE IsInChapter
                 )
 ''')
 
-
+curseur.execute("INSERT INTO Paragraph VALUES (0,?,?,?,?);", ( 0, 0, str(datetime.now()),"Hello"))
+curseur.execute("INSERT INTO Chapter VALUES (?,?);", (0, "Hello"))
+curseur.execute("INSERT INTO Chapter VALUES (?,?);", (1, "En cour"))
 connexion.commit()
 connexion.close

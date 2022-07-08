@@ -1,8 +1,7 @@
-from errno import ESTALE
 from time import sleep
 from datetime import datetime
 from datetime import timedelta
-from venv import create
+
 
 import function
 import CRUD
