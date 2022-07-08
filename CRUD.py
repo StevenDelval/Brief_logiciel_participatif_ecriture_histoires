@@ -201,7 +201,19 @@ def is_in_base(username):
     else:
         return False
 
-
+def caracterisinchapter(ChapterID,CaracterID):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT CaracterID FROM IsInChapter  WHERE ChapterID = ? and CaracterID =?",(ChapterID,CaracterID))
+    if len(curseur.fetchall()) != 0:
+        return True
+    else:
+        return False
+def find_id_last_caracter():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT CaracterID FROM Caracter ORDER BY CaracterID DESC LIMIT 1")
+    return curseur.fetchone()[0]
 def isInChapter(FirstName):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
@@ -249,6 +261,11 @@ def read_caracter(caracterID):
     curseur.execute("SELECT  ChapterID FROM IsInChapter WHERE CaracterID= ?",(caracterID,))
     return curseur.fetchall()
 
+def every_caracter():
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    curseur.execute("SELECT  CaracterID,FirstName,LastName FROM Caracter")
+    return curseur.fetchall()
 
 def afficher_dernier_paragraph():
     connexion = sqlite3.connect("bdd.db")

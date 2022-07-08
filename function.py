@@ -34,7 +34,7 @@ def print_paragraph(index,paragraphs):
         print("""Chapitre {0} \n
         Resumer :\n
         {1}\n
-        __________________
+        __________________\n
         {2}\n
         """.format(paragraphs[index][0],paragraphs[index][1],paragraphs[index][2]))
     else :
@@ -76,7 +76,6 @@ def print_comment(comment):
 def print_paragraph_and_caracter(paragraph,caracters):
     print("""Chapitre {0} : Résumé\n
         {4}\n
-        
         ________
         \n
         Posté par : {1} | {2} \n
@@ -84,6 +83,10 @@ def print_paragraph_and_caracter(paragraph,caracters):
         {3}\n
         _________
         """.format(paragraph[0],paragraph[1],paragraph[2],paragraph[3],paragraph[4]))
-    print("Liste des personnages :",end= "")
+    print("Liste des personnages :",end=" ")
     for perso in caracters:
-        print(caracters[0],caracters[1])
+        if not perso == caracters[-1]:
+            print(perso[0],perso[1],end=", ")
+        else :
+           print(perso[0],perso[1],end="") 
+    print("\n_________")
