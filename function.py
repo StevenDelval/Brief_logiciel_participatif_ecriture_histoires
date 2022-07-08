@@ -88,5 +88,5 @@ def print_paragraph_and_caracter(paragraph,caracters):
         if not perso == caracters[-1]:
             print(perso[0],perso[1],end=", ")
         else :
-           print(perso[0],perso[1]) 
+           print(perso[0],perso[1],end="") 
     print("\n_________")
