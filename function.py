@@ -71,3 +71,19 @@ def print_comment(comment):
     Posté par {0} | {1}
     {2}
     """.format(comment[0],comment[1],comment[2]))
+
+
+def print_paragraph_and_caracter(paragraph,caracters):
+    print("""Chapitre {0} : Résumé\n
+        {4}\n
+        
+        ________
+        \n
+        Posté par : {1} | {2} \n
+        \n
+        {3}\n
+        _________
+        """.format(paragraph[0],paragraph[1],paragraph[2],paragraph[3],paragraph[4]))
+    print("Liste des personnages :",end= "")
+    for perso in caracters:
+        print(caracters[0],caracters[1])
