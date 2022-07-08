@@ -195,6 +195,7 @@ while not connected:
         else:
             CRUD.create_user(username, input("Entrez votre mot de passe :"))
             connected = interaction_with_user(username)
+            function.clear_terminal()
             count = 0
             have_account = bool(int(input("Avez-vous un compte ?\n0 = Non\n1 = Oui\n")))
 
