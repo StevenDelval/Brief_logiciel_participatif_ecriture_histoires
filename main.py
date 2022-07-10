@@ -114,6 +114,7 @@ def interaction_with_user(username):
             
             if actions_lire == 7:
                 function.clear_terminal()
+                print("Il y a {} chapitre".format(CRUD.find_id_last_chapter()))
                 chapitreid = int(input("Entrez le numero du chapitre dont vous voulez modifier le resumer :"))
                 resumer = input("Entrez le nouveau resumer :")
                 CRUD.update_summary(chapitreid, resumer)
