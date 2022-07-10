@@ -5,6 +5,7 @@ from datetime import timedelta
 
 import function
 import CRUD
+
 function.clear_terminal()
 
 def interaction_with_user(username):
@@ -118,7 +119,7 @@ def interaction_with_user(username):
         #############################################
         # 2 : Contester le dernier message Voter    #
         #############################################
-        if not conteste:
+        if not conteste and CRUD.find_id_last_paragraph()[0]:
             function.clear_terminal()
             dernier_paragraph=CRUD.afficher_dernier_paragraph()
             function.print_last_paragraph(dernier_paragraph)
@@ -132,6 +133,10 @@ def interaction_with_user(username):
             else :
                 interaction_with_user(username)
 
+        elif CRUD.find_id_last_paragraph()[0] == 0 :
+            print("vous ne pouvez pas supprimer ce paragraphe.\n Retour au menu Principal dans 5sec")
+            sleep(5)
+            interaction_with_user(username)
 
         else :
             if not CRUD.a_voter(CRUD.find_user_id(username)[0]):
@@ -160,7 +165,7 @@ def interaction_with_user(username):
         # 3 : Écrire la suite    #
         ##########################
         function.clear_terminal()
-        function.print_paragraph_and_caracter(dernier_paragraph,CRUD.read_caracter(CRUD.find_id_last_chapter()))
+        function.print_paragraph_and_caracter(dernier_paragraph,CRUD.every_caracter_in_chapter(CRUD.find_id_last_chapter()))
         
         ##CRUD.create_paragraph (CRUD.find_id_lastchapter(), CRUD.find_user_id(Username)[0], paragraph)
         action_ecrir=int(input("Que voulez vous faire ?\n  \n 1 : écrire la suite  \n 2 : ajouter un personnage existant dans le chapitre 3 : créer un nouveau personnage \n 4 : clore le chapitre 5 : retourner au menu précédent     \n "))
@@ -179,16 +184,20 @@ def interaction_with_user(username):
                 print("Vous devais attendre qu'un autre utilisateur crée un paragraphe \n Retour au menu pricipal dans 5 secondes")
                 sleep(5)
             else:
-                print(CRUD.every_caracter())
-                num_perso= input("Entrez le numero du perso :")
-                if CRUD.caracterisinchapter(CRUD.find_id_last_chapter(),num_perso):
-                    print("Le perso est deja dans le chapitre \n Retour au menu pricipal dans 5 secondes")
-                    sleep(5)
+                if len(CRUD.every_caracter()) !=0 :
+                    print(CRUD.every_caracter())
+                
+                    num_perso= input("Entrez le numero du perso :")
+                    if CRUD.caracterisinchapter(CRUD.find_id_last_chapter(),num_perso):
+                        print("Le perso est deja dans le chapitre \n Retour au menu pricipal dans 5 secondes")
+                        sleep(5)
+                    else:
+                        CRUD.create_isinchapter(num_perso,CRUD.find_id_last_chapter())
+                        paragraph_user = input("Entrez votre paragraphe :")
+                        CRUD.create_paragraph(CRUD.find_id_last_chapter(),CRUD.find_user_id(username)[0],paragraph_user)
                 else:
-                    CRUD.create_isinchapter(num_perso,CRUD.find_id_last_chapter())
-                    paragraph_user = input("Entrez votre paragraphe :")
-                    CRUD.create_paragraph(CRUD.find_id_last_chapter(),CRUD.find_user_id(username)[0],paragraph_user)
-
+                    print("Il n'y a pas encore de personnage\n Retour au menu pricipal dans 5 secondes")
+                    sleep(5)
             interaction_with_user(username)
 
         if action_ecrir == 3:
