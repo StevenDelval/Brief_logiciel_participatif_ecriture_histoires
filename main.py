@@ -111,6 +111,7 @@ def interaction_with_user(username):
                     CRUD.create_comment(commentaire_chap,chapitre_com,CRUD.find_user_id(username)[0])
                 else:
                     print("Le numero de chapitre n'existe pas")
+                    sleep(4)
             
             if actions_lire == 7:
                 function.clear_terminal()
