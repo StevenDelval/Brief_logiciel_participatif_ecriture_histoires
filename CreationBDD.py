@@ -81,9 +81,17 @@ curseur.execute('''CREATE TABLE IsInChapter
                         REFERENCES Caracter(CaracterID)
                 )
 ''')
-
-curseur.execute("INSERT INTO Paragraph VALUES (0,?,?,?,?);", ( 0, 0, str(datetime.now()),"Hello"))
-curseur.execute("INSERT INTO Chapter VALUES (?,?);", (0, "Hello"))
+rule = """
+Bienvenue sur l'histoire collaborative !\n
+Vous pouvez écrire un paragraphe a la fois,
+ensuite vous devez attendre qu'un autre utilisateur
+ecrit un paragraphe.
+Ajoutez des personnages lorsque vous ecrivez votre paragraphe.
+Vous pouvez votez pour supprimer un paragraphe.
+Vous pouvez lire l'histoire depuis le debut.
+"""
+curseur.execute("INSERT INTO Paragraph VALUES (0,?,?,?,?);", ( 0, 0, str(datetime.now()),rule))
+curseur.execute("INSERT INTO Chapter VALUES (?,?);", (0, "Welcome !"))
 curseur.execute("INSERT INTO Chapter VALUES (?,?);", (1, "En cour"))
 connexion.commit()
 connexion.close
