@@ -95,12 +95,12 @@ def interaction_with_user(username):
                 function.clear_terminal()
                 chapitre_com = int(input("Dans quelle chapitre voulez vous lire les commentaires ? "))
                 comments = CRUD.read_comment(chapitre_com)
-                if len(com) != 0:
+                if len(comments) != 0:
                     for com in comments:
                         function.print_comment(com) 
                 else:
                     print("Il n'y a pas de commentaire")
-                input("Appuyer sur une touche lorsque vous avez fini.")
+                input("Appuyer sur entrée lorsque vous avez fini.")
 
 
             if actions_lire == 6:
