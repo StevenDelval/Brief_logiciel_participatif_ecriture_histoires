@@ -104,10 +104,13 @@ def interaction_with_user(username):
 
 
             if actions_lire == 6:
+                print("Il y a {} chapitre".format(CRUD.find_id_last_chapter()))
                 chapitre_com = int(input("Dans quelle chapitre voulez vous ecrire un commentaire ? "))
-                commentaire_chap= input("Votre commentaire :")
-                CRUD.create_comment(commentaire_chap,chapitre_com,CRUD.find_user_id(username)[0])
-            
+                if chapitre_com <= CRUD.find_id_last_chapter():
+                    commentaire_chap= input("Votre commentaire :")
+                    CRUD.create_comment(commentaire_chap,chapitre_com,CRUD.find_user_id(username)[0])
+                else:
+                    print("Le numero de chapitre n'existe pas")
             
             if actions_lire == 7:
                 function.clear_terminal()
