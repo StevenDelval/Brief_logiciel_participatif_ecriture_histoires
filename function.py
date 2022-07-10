@@ -42,14 +42,17 @@ def print_paragraph(index,paragraphs):
         
 def find_index_chapter(Chapter,story):
     """
-    Fonction qui renvoie l'index du premier paragraphes du chapitre choisi
+    Fonction qui renvoie l'index du premier paragraphe du chapitre choisi
+    :param chapter (int) Le numrero de chapitre
+    :param story (list) Liste des pagragraphes
+    :return (int) l'index du premier paragraphe du chapitre choisi
     """
     n = 0
     for paragraph in story:
         if paragraph[0] == Chapter:
             return n
         n +=1
-
+    return len(paragraph)
 
 def print_paragraph_contest(contest,paragraph):
     print("""L'utilisateur {0} conteste le paragraphe suivant:\n
