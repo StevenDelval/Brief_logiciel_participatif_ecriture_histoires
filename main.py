@@ -82,6 +82,7 @@ def interaction_with_user(username):
                 
             if actions_lire == 3:
                 function.clear_terminal()
+                print("Il y a {} chapitre".format(CRUD.find_id_last_chapter()))
                 chapitre = int(input("Entrez le numero du chapitre choisie:"))
                 i = function.find_index_chapter(chapitre,histoire)
                 function.print_paragraph(i,histoire)
@@ -274,7 +275,7 @@ while not connected:
     
     else:
         username = input("Entrez un nom utilisateur :")
-        if CRUD.is_in_base(username) :
+        if CRUD.username_is_in_base(username) :
             function.clear_terminal()
             print("Le nom utilisateur {} est deja pris !".format(username))
         else:

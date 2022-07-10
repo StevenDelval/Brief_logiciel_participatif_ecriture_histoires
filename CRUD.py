@@ -204,7 +204,7 @@ def see_users():
     connexion.close()
 
 
-def is_in_base(username):
+def username_is_in_base(username):
     connexion = sqlite3.connect("bdd.db")
     curseur = connexion.cursor()
     curseur.execute("SELECT Username FROM User WHERE Username= ?",(username,))
